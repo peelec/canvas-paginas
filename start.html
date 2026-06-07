@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sigrid Styling - Blokkenwereld</title>
+  <style>
+    :root{
+      --sky:#79cfff;
+      --sky2:#3b8eea;
+      --grass:#42b947;
+      --grass2:#2f8f36;
+      --dirt:#8b5a2b;
+      --dirt2:#6b3f1f;
+      --wood:#9a6230;
+      --wood2:#70431f;
+      --stone:#8f98a3;
+      --stone2:#6f7780;
+      --gold:#ffd85a;
+      --panel:#fff3d0;
+      --panel2:#e7c98d;
+      --dark:#151515;
+      --green:#6ee36e;
+      --red:#ff6868;
+      --white:#fff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background:#101827;
+      font-family:Arial, Helvetica, sans-serif;
+      color:#fff;
+      padding:16px;
+      overflow:hidden;
+    }
+
+    .game{
+      width:min(1000px, 96vw);
+      height:500px;
+      border:6px solid #0b0b0b;
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+      display:grid;
+      grid-template-rows:64px 1fr 72px;
+      background:linear-gradient(180deg,var(--sky),var(--sky2) 62%, #4da03d 62%);
+      box-shadow:0 25px 70px rgba(0,0,0,.45);
+      image-rendering:pixelated;
+      isolation:isolate;
+    }
+
+    .topbar{
+      z-index:8;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 16px;
+      background:rgba(0,0,0,.58);
+      border-bottom:4px solid rgba(0,0,0,.45);
+    }
+
+    .title{
+      font-weight:1000;
+      font-size:1.55rem;
+      text-shadow:3px 3px 0 #000;
+      letter-spacing:-.5px;
+      white-space:nowrap;
+    }
+
+    .title span{color:var(--gold)}
+
+    .pill{
+      background:rgba(255,255,255,.12);
+      border:2px solid rgba(255,255,255,.18);
+      border-radius:8px;
+      padding:8px 11px;
+      font-weight:900;
+      font-size:.88rem;
+      white-space:nowrap;
+    }
+
+    .world{
+      position:relative;
+      min-height:0;
+      overflow:hidden;
+    }
+
+    .sun{
+      position:absolute;
+      right:78px;
+      top:30px;
+      width:54px;
+      height:54px;
+      background:#ffe66b;
+      border:4px solid rgba(0,0,0,.22);
+      box-shadow:0 0 24px rgba(255,230,107,.8);
+      z-index:0;
+    }
+
+    .cloud{
+      position:absolute;
+      top:45px;
+      left:72px;
+      display:grid;
+      grid-template-columns:repeat(5,22px);
+      grid-template-rows:repeat(2,22px);
+      opacity:.88;
+      z-index:0;
+    }
+
+    .cloud span{background:#fff}
+    .cloud span:nth-child(1){grid-column:2;grid-row:1}
+    .cloud span:nth-child(2){grid-column:3;grid-row:1}
+    .cloud span:nth-child(3){grid-column:1;grid-row:2}
+    .cloud span:nth-child(4){grid-column:2;grid-row:2}
+    .cloud span:nth-child(5){grid-column:3;grid-row:2}
+    .cloud span:nth-child(6){grid-column:4;grid-row:2}
+    .cloud span:nth-child(7){grid-column:5;grid-row:2}
+
+    .ground{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:126px;
+      display:grid;
+      grid-template-columns:repeat(25, 1fr);
+      grid-template-rows:36px 45px 45px;
+      z-index:1;
+    }
+
+    .ground span{
+      border:1px solid rgba(0,0,0,.25);
+      background:linear-gradient(135deg,var(--dirt),var(--dirt2));
+    }
+
+    .ground span:nth-child(-n+25){
+      background:linear-gradient(135deg,var(--grass),var(--grass2));
+      border-top:4px solid #63e86b;
+    }
+
+    .panel{
+      position:absolute;
+      left:22px;
+      top:18px;
+      width:390px;
+      max-height:260px;
+      z-index:6;
+      background:var(--panel);
+      color:#23190d;
+      border:5px solid #1a1209;
+      border-radius:8px;
+      box-shadow:8px 8px 0 rgba(0,0,0,.35);
+      padding:14px;
+      overflow:auto;
+    }
+
+    .panel h2{
+      margin:0 0 8px;
+      font-size:1.35rem;
+      line-height:1.05;
+    }
+
+    .panel p{
+      margin:0;
+      line-height:1.42;
+      font-size:.95rem;
+      font-weight:700;
+    }
+
+    .hotbar-tip{
+      position:absolute;
+      right:20px;
+      top:18px;
+      width:260px;
+      z-index:6;
+      background:rgba(0,0,0,.72);
+      border:4px solid #0b0b0b;
+      border-radius:10px;
+      padding:12px;
+      box-shadow:8px 8px 0 rgba(0,0,0,.28);
+    }
+
+    .hotbar-tip strong{
+      display:block;
+      color:var(--gold);
+      margin-bottom:5px;
+      font-size:1rem;
+    }
+
+    .hotbar-tip p{
+      margin:0;
+      line-height:1.35;
+      font-weight:700;
+      font-size:.9rem;
+    }
+
+    .avatar{
+      position:absolute;
+      left:44%;
+      bottom:96px;
+      width:58px;
+      height:92px;
+      z-index:4;
+      filter:drop-shadow(6px 8px 0 rgba(0,0,0,.25));
+    }
+
+    .head{
+      width:38px;
+      height:38px;
+      margin:0 auto;
+      background:#f0c36a;
+      border:4px solid #0b0b0b;
+    }
+
+    .hair{
+      width:38px;
+      height:12px;
+      background:#4a2c14;
+      border-bottom:4px solid #0b0b0b;
+    }
+
+    .body{
+      width:48px;
+      height:42px;
+      margin:-2px auto 0;
+      background:#3d7cff;
+      border:4px solid #0b0b0b;
+      position:relative;
+    }
+
+    .body::before,.body::after{
+      content:"";
+      position:absolute;
+      width:13px;
+      height:38px;
+      background:#f0c36a;
+      border:4px solid #0b0b0b;
+      top:0;
+    }
+
+    .body::before{left:-17px}
+    .body::after{right:-17px}
+
+    .legs{
+      width:48px;
+      height:22px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:4px;
+    }
+
+    .legs span{
+      background:#25315e;
+      border:4px solid #0b0b0b;
+      border-top:0;
+    }
+
+    .quest{
+      position:absolute;
+      width:122px;
+      height:112px;
+      z-index:5;
+      border:0;
+      background:transparent;
+      padding:0;
+      cursor:pointer;
+      color:#fff;
+      transition:transform .12s ease, filter .12s ease;
+    }
+
+    .quest:hover{
+      transform:translateY(-7px) scale(1.03);
+      filter:brightness(1.05);
+    }
+
+    .quest.done .block-face{
+      background:linear-gradient(135deg,#93ff96,#2abf4b);
+    }
+
+    .quest.active{
+      animation:bob .85s ease-in-out infinite alternate;
+    }
+
+    .quest[data-id="0"]{left:13%; bottom:112px}
+    .quest[data-id="1"]{left:31%; bottom:148px}
+    .quest[data-id="2"]{left:59%; bottom:134px}
+    .quest[data-id="3"]{left:78%; bottom:106px}
+
+    .block-cube{
+      position:absolute;
+      left:18px;
+      bottom:18px;
+      width:86px;
+      height:64px;
+      filter:drop-shadow(7px 9px 0 rgba(0,0,0,.25));
+    }
+
+    .block-face{
+      position:absolute;
+      inset:0;
+      border:4px solid #0b0b0b;
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+      background:linear-gradient(135deg,var(--wood),var(--wood2));
+    }
+
+    .quest[data-id="1"] .block-face{
+      background:linear-gradient(135deg,var(--stone),var(--stone2));
+    }
+
+    .quest[data-id="2"] .block-face{
+      background:linear-gradient(135deg,#7fe0ff,#217bd7);
+    }
+
+    .quest[data-id="3"] .block-face{
+      background:linear-gradient(135deg,#ffdc6a,#b97913);
+    }
+
+    .block-cube::after{
+      content:"";
+      position:absolute;
+      left:8px;
+      right:-8px;
+      bottom:-13px;
+      height:16px;
+      background:rgba(0,0,0,.20);
+      border:4px solid #0b0b0b;
+      border-top:0;
+      z-index:-1;
+    }
+
+    .quest-label{
+      position:absolute;
+      left:50%;
+      bottom:-18px;
+      transform:translateX(-50%);
+      background:#1a1209;
+      border:3px solid #0b0b0b;
+      border-radius:6px;
+      padding:5px 8px;
+      font-weight:1000;
+      font-size:.74rem;
+      white-space:nowrap;
+      box-shadow:4px 4px 0 rgba(0,0,0,.28);
+    }
+
+    .inventory{
+      z-index:8;
+      display:grid;
+      grid-template-columns:repeat(5, minmax(90px, 1fr));
+      gap:10px;
+      align-items:center;
+      padding:10px 16px;
+      background:rgba(0,0,0,.62);
+      border-top:4px solid rgba(0,0,0,.45);
+    }
+
+    .slot{
+      border:4px solid #0b0b0b;
+      background:#5b5f68;
+      min-height:48px;
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:8px;
+      color:#fff;
+      font-weight:1000;
+      font-size:.78rem;
+      text-align:center;
+      cursor:pointer;
+      box-shadow:inset 0 0 0 3px rgba(255,255,255,.12);
+    }
+
+    .slot.active{
+      outline:4px solid var(--gold);
+      background:#767b86;
+    }
+
+    .slot.done{
+      background:#2f8f36;
+    }
+
+    .slot.reset{
+      background:#914040;
+    }
+
+    .end{
+      position:absolute;
+      inset:0;
+      display:none;
+      background:linear-gradient(135deg,#efe3c5,#fff8e8);
+      color:#23190d;
+      z-index:30;
+      padding:22px;
+      overflow:auto;
+    }
+
+    .end.show{display:block}
+
+    .end-inner{
+      max-width:780px;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    .end h2{
+      margin:0 0 8px;
+      font-size:2rem;
+      line-height:1;
+    }
+
+    .end p{
+      margin:0 0 14px;
+      line-height:1.45;
+      font-weight:700;
+      color:#3b2c1b;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      text-align:left;
+    }
+
+    .summary-card{
+      background:#fff;
+      border:4px solid #1a1209;
+      border-radius:8px;
+      padding:12px;
+      box-shadow:6px 6px 0 rgba(0,0,0,.18);
+    }
+
+    .summary-card strong{
+      display:block;
+      margin-bottom:6px;
+      color:#166b2f;
+    }
+
+    .summary-card span{
+      display:block;
+      line-height:1.35;
+      font-weight:700;
+      color:#2d2115;
+    }
+
+    @keyframes bob{
+      from{translate:0 0}
+      to{translate:0 -8px}
+    }
+
+    @media (max-width:760px){
+      body{overflow:auto}
+      .game{height:500px}
+      .title{font-size:1.25rem}
+      .pill{font-size:.75rem;padding:7px}
+      .panel{width:48%;max-height:230px}
+      .hotbar-tip{width:220px}
+      .quest{scale:.84}
+      .inventory{grid-template-columns:repeat(5,1fr);gap:6px}
+      .slot{font-size:.68rem;padding:6px}
+      .summary{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <header class="topbar">
+      <div class="title">Sigrid <span>Styling</span></div>
+      <div class="pill">Minecraft-achtige opdrachtwereld</div>
+      <div class="pill"><span id="doneCount">0</span>/4 ontdekt</div>
+    </header>
+
+    <section class="world">
+      <div class="sun"></div>
+      <div class="cloud" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="panel">
+        <h2 id="panelTitle">Welkom bij Sigrid Styling</h2>
+        <p id="panelText">Klik op de blokken in de wereld of gebruik de inventory onderaan om de opdracht te ontdekken.</p>
+      </div>
+
+      <div class="hotbar-tip">
+        <strong>Quest</strong>
+        <p>Ontdek wat je gaat doen in dit beroepsproject voor ICT support.</p>
+      </div>
+
+      <div class="avatar" aria-hidden="true">
+        <div class="head"><div class="hair"></div></div>
+        <div class="body"></div>
+        <div class="legs"><span></span><span></span></div>
+      </div>
+
+      <button class="quest active" data-id="0">
+        <div class="block-cube"><div class="block-face">🏢</div></div>
+        <div class="quest-label">Opdrachtgever</div>
+      </button>
+
+      <button class="quest" data-id="1">
+        <div class="block-cube"><div class="block-face">🖥️</div></div>
+        <div class="quest-label">Werkplek</div>
+      </button>
+
+      <button class="quest" data-id="2">
+        <div class="block-cube"><div class="block-face">🧱</div></div>
+        <div class="quest-label">Wat wel/niet?</div>
+      </button>
+
+      <button class="quest" data-id="3">
+        <div class="block-cube"><div class="block-face">📣</div></div>
+        <div class="quest-label">Start</div>
+      </button>
+
+      <div class="ground" aria-hidden="true" id="ground"></div>
+
+      <section class="end" id="endScreen">
+        <div class="end-inner">
+          <h2>Project ontdekt!</h2>
+          <p>Dit is de opdracht in het kort. Je richt stap voor stap een nieuwe werkplek in voor Sigrid Styling.</p>
+          <div class="summary">
+            <div class="summary-card"><strong>Opdrachtgever</strong><span>Sigrid Styling is een beroepsproject voor ICT support.</span></div>
+            <div class="summary-card"><strong>Nieuwe werkplek</strong><span>Je bouwt een nieuwe computer en installeert een besturingssysteem en applicaties.</span></div>
+            <div class="summary-card"><strong>Gebruiksklaar maken</strong><span>Als alles goed werkt, stel je de computer in naar de wens van de gebruiker.</span></div>
+            <div class="summary-card"><strong>Startpresentatie</strong><span>Het project begint met een startpresentatie van je docent over opdrachtgever, opdrachten en samenwerking.</span></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <footer class="inventory" id="inventory">
+      <button class="slot active" data-id="0">🏢 Opdrachtgever</button>
+      <button class="slot" data-id="1">🖥️ Werkplek</button>
+      <button class="slot" data-id="2">🧱 Wel / niet</button>
+      <button class="slot" data-id="3">📣 Start</button>
+      <button class="slot reset" id="reset" type="button">↻ Opnieuw</button>
+    </footer>
+  </main>
+
+  <script>
+    const ground = document.querySelector("#ground");
+    for(let i = 0; i < 75; i++){
+      ground.appendChild(document.createElement("span"));
+    }
+
+    const blocks = [
+      {
+        title: "Welkom bij Sigrid Styling",
+        text: "Welkom bij Sigrid Styling, een beroepsproject voor ICT support."
+      },
+      {
+        title: "Nieuwe werkplekken inrichten",
+        text: "In dit beroepsproject ga je nieuwe werkplekken inrichten. Je bouwt een nieuwe computer en installeert een besturingssysteem en applicaties. Als alles goed werkt, stel je de computer naar de wens van de gebruiker in."
+      },
+      {
+        title: "Monteren en gebruiksklaar maken",
+        text: "In dit project worden geen onderdelen of systemen gerepareerd. Wel ga je systemen monteren, demonteren en gebruiksklaar maken."
+      },
+      {
+        title: "Start van het project",
+        text: "Dit beroepsproject begint met een startpresentatie die je docent geeft. Je hoort meer over de opdrachtgever Sigrid Styling, de opdrachten, de samenwerking en wat klassikaal wordt besproken."
+      }
+    ];
+
+    const panelTitle = document.querySelector("#panelTitle");
+    const panelText = document.querySelector("#panelText");
+    const doneCount = document.querySelector("#doneCount");
+    const quests = [...document.querySelectorAll(".quest")];
+    const slots = [...document.querySelectorAll(".slot[data-id]")];
+    const reset = document.querySelector("#reset");
+    const endScreen = document.querySelector("#endScreen");
+
+    const seen = new Set();
+
+    function showBlock(id){
+      const block = blocks[id];
+      panelTitle.textContent = block.title;
+      panelText.textContent = block.text;
+
+      seen.add(id);
+      doneCount.textContent = seen.size;
+
+      quests.forEach(q => {
+        const qid = Number(q.dataset.id);
+        q.classList.toggle("active", qid === id);
+        q.classList.toggle("done", seen.has(qid));
+      });
+
+      slots.forEach(s => {
+        const sid = Number(s.dataset.id);
+        s.classList.toggle("active", sid === id);
+        s.classList.toggle("done", seen.has(sid));
+      });
+
+      if(seen.size === 4){
+        endScreen.classList.add("show");
+      }
+    }
+
+    quests.forEach(q => {
+      q.addEventListener("click", () => showBlock(Number(q.dataset.id)));
+    });
+
+    slots.forEach(s => {
+      s.addEventListener("click", () => showBlock(Number(s.dataset.id)));
+    });
+
+    reset.addEventListener("click", () => {
+      seen.clear();
+      doneCount.textContent = "0";
+      endScreen.classList.remove("show");
+      panelTitle.textContent = "Welkom bij Sigrid Styling";
+      panelText.textContent = "Klik op de blokken in de wereld of gebruik de inventory onderaan om de opdracht te ontdekken.";
+
+      quests.forEach((q, index) => {
+        q.classList.toggle("active", index === 0);
+        q.classList.remove("done");
+      });
+
+      slots.forEach((s, index) => {
+        s.classList.toggle("active", index === 0);
+        s.classList.remove("done");
+      });
+    });
+  </script>
+</body>
+</html>
