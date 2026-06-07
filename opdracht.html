@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Obby Opdracht</title>
+  <style>
+    :root{
+      --sky1:#59c7ff;
+      --sky2:#2566d8;
+      --grass:#34c759;
+      --grass-dark:#16853a;
+      --block:#ffce4a;
+      --block-side:#d99922;
+      --red:#ff4d63;
+      --green:#57f287;
+      --blue:#4aa3ff;
+      --purple:#a855f7;
+      --dark:#10162d;
+      --white:#fff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(135deg,#11172f,#202b67);
+      padding:16px;
+      color:#fff;
+      overflow:hidden;
+    }
+
+    .game{
+      width:min(1000px, 96vw);
+      height:500px;
+      border-radius:26px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(255,255,255,.75), transparent 7%),
+        linear-gradient(180deg,var(--sky1),var(--sky2) 58%, #1549a8);
+      border:5px solid #0a0d1e;
+      box-shadow:0 24px 60px rgba(0,0,0,.42);
+      display:grid;
+      grid-template-rows:70px 1fr 76px;
+      position:relative;
+      isolation:isolate;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      padding:12px 18px;
+      background:rgba(8,12,30,.62);
+      border-bottom:3px solid rgba(0,0,0,.35);
+      z-index:4;
+    }
+
+    .title{
+      font-weight:1000;
+      font-size:1.75rem;
+      letter-spacing:-1px;
+      text-shadow:3px 3px 0 #000;
+      white-space:nowrap;
+    }
+
+    .title span{
+      color:#ffdf4d;
+    }
+
+    .pill{
+      padding:9px 13px;
+      border-radius:999px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.18);
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .world{
+      position:relative;
+      min-height:0;
+      overflow:hidden;
+    }
+
+    .cloud{
+      position:absolute;
+      background:#fff;
+      opacity:.82;
+      border-radius:999px;
+      filter:drop-shadow(0 5px 0 rgba(0,0,0,.08));
+      z-index:0;
+    }
+
+    .cloud::before,
+    .cloud::after{
+      content:"";
+      position:absolute;
+      background:#fff;
+      border-radius:50%;
+    }
+
+    .cloud.one{
+      width:110px;
+      height:32px;
+      left:70px;
+      top:32px;
+    }
+
+    .cloud.one::before{
+      width:48px;
+      height:48px;
+      left:18px;
+      top:-22px;
+    }
+
+    .cloud.one::after{
+      width:40px;
+      height:40px;
+      right:18px;
+      top:-16px;
+    }
+
+    .cloud.two{
+      width:130px;
+      height:36px;
+      right:80px;
+      top:52px;
+      opacity:.66;
+    }
+
+    .cloud.two::before{
+      width:54px;
+      height:54px;
+      left:24px;
+      top:-25px;
+    }
+
+    .cloud.two::after{
+      width:44px;
+      height:44px;
+      right:20px;
+      top:-18px;
+    }
+
+    .ground{
+      position:absolute;
+      left:-4%;
+      right:-4%;
+      bottom:-20px;
+      height:132px;
+      background:linear-gradient(180deg,var(--grass),var(--grass-dark));
+      border-top:5px solid rgba(0,0,0,.28);
+      transform:skewY(-2deg);
+      z-index:1;
+    }
+
+    .path{
+      position:absolute;
+      left:6%;
+      right:6%;
+      bottom:58px;
+      height:18px;
+      background:repeating-linear-gradient(90deg,#1d274d 0 26px,#263465 26px 52px);
+      border:4px solid #0b1028;
+      border-radius:999px;
+      z-index:2;
+      box-shadow:0 10px 0 rgba(0,0,0,.22);
+    }
+
+    .avatar{
+      position:absolute;
+      left:6%;
+      bottom:92px;
+      width:52px;
+      height:72px;
+      z-index:5;
+      transition:left .35s ease;
+    }
+
+    .head{
+      width:30px;
+      height:30px;
+      margin:0 auto;
+      background:#ffd36b;
+      border:4px solid #111;
+      border-radius:8px;
+    }
+
+    .body{
+      width:42px;
+      height:38px;
+      margin:-2px auto 0;
+      background:#2f80ed;
+      border:4px solid #111;
+      border-radius:8px;
+      position:relative;
+    }
+
+    .body::before,
+    .body::after{
+      content:"";
+      position:absolute;
+      width:12px;
+      height:34px;
+      background:#ffd36b;
+      border:4px solid #111;
+      top:2px;
+      border-radius:6px;
+    }
+
+    .body::before{left:-16px}
+    .body::after{right:-16px}
+
+    .checkpoint{
+      position:absolute;
+      width:132px;
+      height:96px;
+      z-index:3;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      padding:0;
+      color:#111;
+      transition:transform .12s ease;
+    }
+
+    .checkpoint:hover{
+      transform:translateY(-6px) scale(1.03);
+    }
+
+    .checkpoint.done .cube-top{
+      background:linear-gradient(135deg,#b8ffd0,#57f287);
+    }
+
+    .checkpoint.active .flag{
+      animation:pulse .75s ease-in-out infinite alternate;
+    }
+
+    .checkpoint:nth-of-type(1){left:14%; bottom:84px}
+    .checkpoint:nth-of-type(2){left:35%; bottom:124px}
+    .checkpoint:nth-of-type(3){left:56%; bottom:92px}
+    .checkpoint:nth-of-type(4){left:77%; bottom:132px}
+
+    .cube{
+      position:absolute;
+      left:18px;
+      bottom:0;
+      width:96px;
+      height:58px;
+      transform:skewY(-4deg);
+      filter:drop-shadow(8px 10px 0 rgba(0,0,0,.25));
+    }
+
+    .cube-top{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,#fff079,var(--block));
+      border:4px solid #111;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      font-size:1.55rem;
+      font-weight:1000;
+      text-shadow:1px 1px 0 #fff;
+    }
+
+    .cube::after{
+      content:"";
+      position:absolute;
+      left:8px;
+      right:-8px;
+      bottom:-12px;
+      height:16px;
+      background:var(--block-side);
+      border:4px solid #111;
+      border-top:0;
+      border-radius:0 0 12px 12px;
+      z-index:-1;
+    }
+
+    .flag{
+      position:absolute;
+      left:50%;
+      bottom:58px;
+      width:56px;
+      height:46px;
+      transform:translateX(-50%);
+      transform-origin:bottom center;
+    }
+
+    .pole{
+      position:absolute;
+      left:8px;
+      bottom:0;
+      width:8px;
+      height:58px;
+      background:#111;
+      border-radius:999px;
+    }
+
+    .cloth{
+      position:absolute;
+      left:14px;
+      top:0;
+      width:42px;
+      height:28px;
+      background:var(--red);
+      border:4px solid #111;
+      border-radius:6px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:.78rem;
+      font-weight:1000;
+    }
+
+    .checkpoint[data-step="2"] .cloth{background:var(--blue)}
+    .checkpoint[data-step="3"] .cloth{background:var(--purple)}
+    .checkpoint[data-step="4"] .cloth{background:var(--green); color:#10251a}
+
+    .label{
+      position:absolute;
+      left:50%;
+      bottom:-30px;
+      transform:translateX(-50%);
+      background:#10162d;
+      color:#fff;
+      border:3px solid #000;
+      border-radius:999px;
+      padding:5px 9px;
+      font-size:.74rem;
+      font-weight:1000;
+      white-space:nowrap;
+    }
+
+    .info{
+      position:absolute;
+      left:18px;
+      top:18px;
+      width:min(390px, 42%);
+      background:rgba(255,255,255,.96);
+      color:var(--dark);
+      border:4px solid #111;
+      border-radius:20px;
+      padding:14px;
+      z-index:6;
+      box-shadow:8px 8px 0 rgba(0,0,0,.35);
+    }
+
+    .info h2{
+      margin:0 0 6px;
+      font-size:1.35rem;
+      letter-spacing:-.4px;
+    }
+
+    .info p{
+      margin:0;
+      line-height:1.35;
+      font-weight:700;
+      font-size:.95rem;
+    }
+
+    .feedback{
+      position:absolute;
+      right:18px;
+      top:18px;
+      width:250px;
+      background:#10162d;
+      color:#fff;
+      border:4px solid #111;
+      border-radius:20px;
+      padding:14px;
+      z-index:6;
+      box-shadow:8px 8px 0 rgba(0,0,0,.35);
+    }
+
+    .feedback strong{
+      display:block;
+      color:#ffdf4d;
+      margin-bottom:6px;
+      font-size:1rem;
+    }
+
+    .feedback p{
+      margin:0;
+      line-height:1.35;
+      font-size:.92rem;
+    }
+
+    .bottom{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:12px;
+      padding:12px 18px;
+      background:rgba(8,12,30,.62);
+      border-top:3px solid rgba(0,0,0,.35);
+      z-index:5;
+    }
+
+    .btn{
+      border:0;
+      border-radius:14px;
+      padding:11px 16px;
+      min-width:140px;
+      cursor:pointer;
+      font-weight:1000;
+      font-size:.96rem;
+      color:#111;
+      background:linear-gradient(135deg,#ffdf4d,#57f287);
+      box-shadow:0 6px 0 #0b391d;
+    }
+
+    .btn:active{
+      transform:translateY(4px);
+      box-shadow:0 2px 0 #0b391d;
+    }
+
+    .end{
+      position:absolute;
+      inset:0;
+      display:none;
+      background:linear-gradient(135deg,#eef7ff,#ffffff);
+      color:#12172f;
+      z-index:20;
+      padding:22px;
+      overflow:auto;
+    }
+
+    .end.show{
+      display:block;
+    }
+
+    .end-inner{
+      max-width:760px;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    .end h2{
+      margin:0 0 8px;
+      font-size:2rem;
+      letter-spacing:-1px;
+    }
+
+    .end p{
+      color:#2d365c;
+      line-height:1.45;
+      margin:0 0 14px;
+      font-weight:700;
+    }
+
+    .step-list{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      text-align:left;
+    }
+
+    .step-card{
+      background:#fff;
+      border:2px solid #dce7ff;
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 8px 18px rgba(0,0,0,.08);
+    }
+
+    .step-card strong{
+      display:block;
+      margin-bottom:6px;
+      color:#2f62d9;
+    }
+
+    .step-card span{
+      color:#26304f;
+      line-height:1.35;
+      font-weight:700;
+    }
+
+    @keyframes pulse{
+      from{scale:1}
+      to{scale:1.08}
+    }
+
+    @media (max-width:760px){
+      body{overflow:auto}
+      .game{
+        height:500px;
+        grid-template-rows:68px 1fr 72px;
+      }
+      .title{font-size:1.35rem}
+      .pill{font-size:.78rem;padding:8px}
+      .info{width:50%;font-size:.85rem}
+      .feedback{width:210px}
+      .checkpoint{width:112px;scale:.85}
+      .step-list{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <header class="topbar">
+      <div class="title">Obby<span>Opdracht</span></div>
+      <div class="pill">Klik de checkpoints in de juiste volgorde</div>
+      <div class="pill">Stap <span id="progress">0</span>/4</div>
+    </header>
+
+    <section class="world" aria-label="Roblox-achtige opdrachtomgeving">
+      <div class="cloud one"></div>
+      <div class="cloud two"></div>
+      <div class="ground"></div>
+      <div class="path"></div>
+
+      <div class="info">
+        <h2 id="infoTitle">Start de obby</h2>
+        <p id="infoText">Klik op checkpoint 1 en volg daarna de opdrachtstappen in de juiste volgorde.</p>
+      </div>
+
+      <div class="feedback">
+        <strong id="feedbackTitle">Opdracht</strong>
+        <p id="feedbackText">Werk van links naar rechts: veilig starten, installeren, instellen en opleveren.</p>
+      </div>
+
+      <div class="avatar" id="avatar" aria-hidden="true">
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <button class="checkpoint active" data-step="1" data-title="Veilig starten"
+        data-text="Werkplek klaarzetten, ESD gebruiken, gereedschap en materiaal controleren.">
+        <div class="flag"><div class="pole"></div><div class="cloth">1</div></div>
+        <div class="cube"><div class="cube-top">🧰</div></div>
+        <div class="label">Veilig starten</div>
+      </button>
+
+      <button class="checkpoint" data-step="2" data-title="Installeren"
+        data-text="Besturingssysteem en software installeren volgens de opdracht.">
+        <div class="flag"><div class="pole"></div><div class="cloth">2</div></div>
+        <div class="cube"><div class="cube-top">💿</div></div>
+        <div class="label">Installeren</div>
+      </button>
+
+      <button class="checkpoint" data-step="3" data-title="Instellen"
+        data-text="Gebruikers, taal, netwerk, updates en instellingen controleren.">
+        <div class="flag"><div class="pole"></div><div class="cloth">3</div></div>
+        <div class="cube"><div class="cube-top">⚙️</div></div>
+        <div class="label">Instellen</div>
+      </button>
+
+      <button class="checkpoint" data-step="4" data-title="Opleveren"
+        data-text="Testen, bewijs verzamelen en netjes afronden.">
+        <div class="flag"><div class="pole"></div><div class="cloth">4</div></div>
+        <div class="cube"><div class="cube-top">✅</div></div>
+        <div class="label">Opleveren</div>
+      </button>
+
+      <section class="end" id="endScreen">
+        <div class="end-inner">
+          <h2>Obby gehaald!</h2>
+          <p>Dit zijn de vier stappen die de student moet doen bij de opdracht.</p>
+          <div class="step-list">
+            <div class="step-card"><strong>1. Veilig starten</strong><span>Werkplek klaarzetten, ESD, gereedschap en materiaal controleren.</span></div>
+            <div class="step-card"><strong>2. Installeren</strong><span>Besturingssysteem en software installeren.</span></div>
+            <div class="step-card"><strong>3. Instellen</strong><span>Gebruikers, taal, netwerk, updates en instellingen controleren.</span></div>
+            <div class="step-card"><strong>4. Opleveren</strong><span>Testen, bewijs verzamelen en netjes afronden.</span></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <footer class="bottom">
+      <button class="btn" id="reset" type="button">Opnieuw starten</button>
+      <button class="btn" id="overview" type="button">Toon overzicht</button>
+    </footer>
+  </main>
+
+  <script>
+    const checkpoints = [...document.querySelectorAll(".checkpoint")];
+    const infoTitle = document.querySelector("#infoTitle");
+    const infoText = document.querySelector("#infoText");
+    const feedbackTitle = document.querySelector("#feedbackTitle");
+    const feedbackText = document.querySelector("#feedbackText");
+    const progress = document.querySelector("#progress");
+    const avatar = document.querySelector("#avatar");
+    const reset = document.querySelector("#reset");
+    const overview = document.querySelector("#overview");
+    const endScreen = document.querySelector("#endScreen");
+
+    let currentStep = 1;
+    let completed = 0;
+
+    const avatarPositions = {
+      0: "6%",
+      1: "17%",
+      2: "38%",
+      3: "59%",
+      4: "80%"
+    };
+
+    function updateActive(){
+      checkpoints.forEach(btn => {
+        const step = Number(btn.dataset.step);
+        btn.classList.toggle("active", step === currentStep);
+        btn.classList.toggle("done", step < currentStep);
+      });
+      progress.textContent = completed;
+      avatar.style.left = avatarPositions[completed];
+    }
+
+    checkpoints.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const step = Number(btn.dataset.step);
+
+        if(step !== currentStep){
+          feedbackTitle.textContent = "Nog niet!";
+          feedbackText.textContent = `Je bent bij stap ${currentStep}. Volg de checkpoints in de juiste volgorde.`;
+          return;
+        }
+
+        infoTitle.textContent = btn.dataset.title;
+        infoText.textContent = btn.dataset.text;
+        feedbackTitle.textContent = "Goed checkpoint!";
+        feedbackText.textContent = `Stap ${step} is bekeken. Ga nu door naar de volgende stap.`;
+
+        completed = step;
+        currentStep++;
+
+        if(completed === 4){
+          feedbackTitle.textContent = "Opdracht compleet";
+          feedbackText.textContent = "Alle stappen zijn bekeken. Bekijk nu het overzicht.";
+          endScreen.classList.add("show");
+        }
+
+        updateActive();
+      });
+    });
+
+    reset.addEventListener("click", () => {
+      currentStep = 1;
+      completed = 0;
+      endScreen.classList.remove("show");
+      infoTitle.textContent = "Start de obby";
+      infoText.textContent = "Klik op checkpoint 1 en volg daarna de opdrachtstappen in de juiste volgorde.";
+      feedbackTitle.textContent = "Opdracht";
+      feedbackText.textContent = "Werk van links naar rechts: veilig starten, installeren, instellen en opleveren.";
+      updateActive();
+    });
+
+    overview.addEventListener("click", () => {
+      endScreen.classList.add("show");
+    });
+
+    updateActive();
+  </script>
+</body>
+</html>
