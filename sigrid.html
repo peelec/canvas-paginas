@@ -32,7 +32,7 @@ body{
   border:5px solid #000;
   border-radius:22px;
   box-shadow:0 24px 70px rgba(0,0,0,.55);
-  perspective:360px;
+  perspective:310px;
   isolation:isolate;
 }
 
@@ -60,8 +60,8 @@ body{
   left:0;
   right:0;
   top:0;
-  height:180px;
-  background:linear-gradient(180deg,#01020a 0%,rgba(1,2,10,.90) 34%,transparent 100%);
+  height:230px;
+  background:linear-gradient(180deg,#01020a 0%,rgba(1,2,10,.96) 25%,rgba(1,2,10,.78) 55%,transparent 100%);
   pointer-events:none;
 }
 
@@ -71,7 +71,7 @@ body{
   left:0;
   right:0;
   bottom:0;
-  height:95px;
+  height:70px;
   background:linear-gradient(0deg,#01020a 0%, transparent 100%);
   pointer-events:none;
 }
@@ -96,34 +96,34 @@ body{
   position:absolute;
   z-index:4;
   left:50%;
-  bottom:-470px;
-  width:min(920px,94%);
-  height:980px;
-  transform:translateX(-50%) rotateX(64deg);
+  bottom:-560px;
+  width:min(1350px,132%);
+  height:1180px;
+  transform:translateX(-50%) rotateX(69deg);
   transform-origin:50% 100%;
   overflow:visible;
 }
 
 .crawl{
   position:absolute;
-  left:-9%;
-  right:-9%;
-  bottom:-260px;
+  left:-24%;
+  right:-24%;
+  bottom:-360px;
   color:#ffd84a;
   text-align:justify;
   font-weight:900;
   line-height:1.45;
   letter-spacing:.8px;
-  font-size:clamp(1.45rem,3.2vw,2.75rem);
+  font-size:clamp(1.65rem,4.1vw,3.55rem);
   text-shadow:0 0 12px rgba(255,216,74,.55);
   opacity:0;
-  animation:crawl 40s linear 5.35s forwards;
+  animation:crawl 47s linear 5.35s forwards;
 }
 
 .crawl h1{
   text-align:center;
-  margin:0 0 18px;
-  font-size:clamp(2.2rem,5.4vw,4.5rem);
+  margin:0 0 20px;
+  font-size:clamp(2.7rem,7vw,5.8rem);
   line-height:1;
   text-transform:uppercase;
   letter-spacing:2px;
@@ -131,14 +131,14 @@ body{
 
 .crawl h2{
   text-align:center;
-  margin:0 0 28px;
-  font-size:clamp(1.35rem,3.2vw,2.3rem);
+  margin:0 0 30px;
+  font-size:clamp(1.55rem,4vw,2.8rem);
   text-transform:uppercase;
   letter-spacing:1px;
 }
 
 .crawl p{
-  margin:0 0 24px;
+  margin:0 0 28px;
 }
 
 .controls{
@@ -181,10 +181,10 @@ button:hover{
 }
 
 @keyframes crawl{
-  0%{transform:translateY(0) scaleX(1.22); opacity:1}
-  45%{transform:translateY(-520px) scaleX(.84); opacity:1}
-  82%{opacity:1}
-  100%{transform:translateY(-1280px) scaleX(.34); opacity:0}
+  0%{transform:translateY(0) scaleX(1.65); opacity:1}
+  38%{transform:translateY(-650px) scaleX(.88); opacity:1}
+  76%{transform:translateY(-1280px) scaleX(.42); opacity:.88}
+  100%{transform:translateY(-1800px) scaleX(.14); opacity:0}
 }
 
 @keyframes introFade{
@@ -203,14 +203,15 @@ button:hover{
 @media(max-width:650px){
   .scene{height:500px}
   .crawl-wrap{
-    width:96%;
-    bottom:-490px;
-    transform:translateX(-50%) rotateX(66deg);
+    width:138%;
+    bottom:-585px;
+    transform:translateX(-50%) rotateX(70deg);
   }
   .crawl{
-    left:-12%;
-    right:-12%;
-    bottom:-290px;
+    left:-28%;
+    right:-28%;
+    bottom:-390px;
+    font-size:clamp(1.45rem,5.4vw,2.5rem);
   }
   .hint{display:none}
 }
@@ -359,7 +360,7 @@ button:hover{
     </article>
   </section>
 
-  <div class="hint"></div>
+  <div class="hint"> </div>
 
   <div class="controls">
     <button type="button" id="restart">Opnieuw</button>
@@ -383,7 +384,7 @@ function restartAnimations() {
   void crawl.offsetWidth;
   void intro.offsetWidth;
 
-  crawl.style.animation = "crawl 40s linear 5.35s forwards";
+  crawl.style.animation = "crawl 47s linear 5.35s forwards";
   intro.style.animation = "introFade 5.2s ease forwards";
 
   paused = false;
