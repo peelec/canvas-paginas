@@ -109,9 +109,9 @@
     }
 
     .tekst {
-      font-size: clamp(24px, 3.6vw, 42px);
+      font-size: clamp(20px, 3vw, 36px);
       font-weight: 900;
-      line-height: 1.2;
+      line-height: 1.25;
       letter-spacing: 1px;
       text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
       white-space: pre-wrap;
@@ -200,33 +200,35 @@
 
   <script>
     const teksten = [
-      "De student monteert, installeert en configureert hardware en software conform opdracht en geldende procedures, waarbij hij/zij veiligheid, privacy en werkende netwerkaansluiting waarborgt, zorgvuldig en systematisch werkt, verspilling voorkomt en de werkzaamheden correct administreert.",
-      "B1-K1-W1: maakt devices gebruiksklaar.
+      `De student monteert, installeert en configureert hardware en software conform opdracht en geldende procedures, waarbij hij/zij veiligheid, privacy en werkende netwerkaansluiting waarborgt, zorgvuldig en systematisch werkt, verspilling voorkomt en de werkzaamheden correct administreert.`,
+      `B1-K1-W1: maakt devices gebruiksklaar.
 B1-K1-W2: installeert en onderhoudt software.
 B1-K1-W3: lost technische problemen op.
-B1-K2-W2: instrueert gebruikers.",
-      "Je werkt met hardware, software, gereedschap en de opdrachten in Canvas. De benodigde materialen zijn aanwezig op school.",
-      "Je levert opdrachten, bewijs van je werk, checklists of werkbonnen en het eindresultaat van het beroepsproject op.",
-      "Je sluit de cursus af met het beroepsproject Sigrid Styling. Daarin laat je zien dat je een device zelfstandig en netjes gebruiksklaar kunt maken."
+B1-K2-W2: instrueert gebruikers.`,
+      `Je werkt met hardware, software, gereedschap en de opdrachten in Canvas. De benodigde materialen zijn aanwezig op school.`,
+      `Je levert opdrachten, bewijs van je werk, checklists of werkbonnen en het eindresultaat van het beroepsproject op.`,
+      `Je sluit de cursus af met het beroepsproject Sigrid Styling. Daarin laat je zien dat je een device zelfstandig en netjes gebruiksklaar kunt maken.`
     ];
 
     let timer = null;
+    let eindTimer = null;
 
     function toonTekst(index) {
       const tekstVak = document.getElementById("tekst");
 
       clearInterval(timer);
+      clearTimeout(eindTimer);
+
       tekstVak.classList.add("rollen");
 
-      let teller = 0;
+      let teller = index + 1;
 
       timer = setInterval(() => {
-        // Tijdens het rollen komen alleen teksten voorbij, geen fruitsymbolen.
         tekstVak.textContent = teksten[teller % teksten.length];
         teller++;
       }, 110);
 
-      setTimeout(() => {
+      eindTimer = setTimeout(() => {
         clearInterval(timer);
         tekstVak.classList.remove("rollen");
         tekstVak.textContent = teksten[index];
