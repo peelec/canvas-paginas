@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tekstrol met lagen</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #20243a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pagina {
+      width: min(1100px, 96vw);
+      min-height: 600px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      padding: 24px;
+      border-radius: 24px;
+      background: #171a2b;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .knoppen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px;
+      border-radius: 18px;
+      background: #24283d;
+    }
+
+    .knoppen button {
+      width: 100%;
+      padding: 16px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff8a00, #ff3d77);
+      box-shadow: 0 7px 0 #8f1d42;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .knoppen button:hover {
+      filter: brightness(1.08);
+    }
+
+    .knoppen button:active {
+      transform: translateY(5px);
+      box-shadow: 0 2px 0 #8f1d42;
+    }
+
+    .knoppen button.actief {
+      outline: 4px solid white;
+    }
+
+    .scherm-rand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      border-radius: 24px;
+      background: #080a12;
+      border: 8px solid #f4c542;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .scherm-rand::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 14px;
+      border: 2px dashed rgba(255, 255, 255, 0.16);
+      pointer-events: none;
+    }
+
+    .scherm {
+      width: 100%;
+      max-width: 700px;
+      min-height: 300px;
+      padding: 30px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #151827, #0e101a);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .starttekst {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .laag {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .laag.zichtbaar {
+      display: flex;
+    }
+
+    .rolvenster {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    .rolstrook {
+      position: absolute;
+      width: 100%;
+      animation: rolBeweging 1.7s cubic-bezier(.12,.72,.16,1) forwards;
+    }
+
+    .rolregel {
+      min-height: 80px;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(24px, 3.7vw, 42px);
+      font-weight: 900;
+      line-height: 1.15;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.65);
+    }
+
+    .eindtekst {
+      opacity: 0;
+      transform: scale(0.9);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      line-height: 1.2;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.65);
+      animation: eindtekstBinnen 0.45s ease forwards;
+      animation-delay: 1.75s;
+    }
+
+    .laag.zichtbaar .rolvenster {
+      animation: rolVerdwijnt 0.25s linear forwards;
+      animation-delay: 1.65s;
+    }
+
+    @keyframes rolBeweging {
+      0% {
+        transform: translateY(-280px);
+        filter: blur(5px);
+      }
+
+      12% {
+        transform: translateY(-170px);
+        filter: blur(4px);
+      }
+
+      25% {
+        transform: translateY(-60px);
+        filter: blur(3px);
+      }
+
+      40% {
+        transform: translateY(45px);
+        filter: blur(2px);
+      }
+
+      58% {
+        transform: translateY(-30px);
+        filter: blur(1px);
+      }
+
+      73% {
+        transform: translateY(18px);
+        filter: blur(0);
+      }
+
+      86% {
+        transform: translateY(-8px);
+        filter: blur(0);
+      }
+
+      100% {
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes rolVerdwijnt {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    @keyframes eindtekstBinnen {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .uitleg {
+      position: absolute;
+      right: 18px;
+      bottom: 12px;
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      .pagina {
+        grid-template-columns: 145px 1fr;
+        gap: 12px;
+        padding: 12px;
+        min-height: 480px;
+      }
+
+      .knoppen {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .knoppen button {
+        font-size: 14px;
+        padding: 12px 8px;
+      }
+
+      .scherm-rand {
+        padding: 12px;
+        border-width: 5px;
+      }
+
+      .scherm {
+        min-height: 300px;
+        padding: 16px;
+      }
+
+      .rolregel {
+        min-height: 72px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="pagina">
+    <aside class="knoppen">
+      <button data-laag="laag1">Knop 1</button>
+      <button data-laag="laag2">Knop 2</button>
+      <button data-laag="laag3">Knop 3</button>
+      <button data-laag="laag4">Knop 4</button>
+      <button data-laag="laag5">Knop 5</button>
+    </aside>
+
+    <section class="scherm-rand">
+      <div class="scherm">
+        <div id="starttekst" class="starttekst">Klik op een knop</div>
+
+        <div id="laag1" class="laag">
+          <div class="rolvenster">
+            <div class="rolstrook">
+              <div class="rolregel">Dit is de tweede boodschap.</div>
+              <div class="rolregel">Hier staat de derde tekst.</div>
+              <div class="rolregel">Knop vier laat deze tekst zien.</div>
+              <div class="rolregel">Gefeliciteerd! Dit is tekst vijf.</div>
+              <div class="rolregel">Welkom bij tekst 1!</div>
+            </div>
+          </div>
+          <div class="eindtekst">Welkom bij tekst 1!</div>
+        </div>
+
+        <div id="laag2" class="laag">
+          <div class="rolvenster">
+            <div class="rolstrook">
+              <div class="rolregel">Welkom bij tekst 1!</div>
+              <div class="rolregel">Hier staat de derde tekst.</div>
+              <div class="rolregel">Knop vier laat deze tekst zien.</div>
+              <div class="rolregel">Gefeliciteerd! Dit is tekst vijf.</div>
+              <div class="rolregel">Dit is de tweede boodschap.</div>
+            </div>
+          </div>
+          <div class="eindtekst">Dit is de tweede boodschap.</div>
+        </div>
+
+        <div id="laag3" class="laag">
+          <div class="rolvenster">
+            <div class="rolstrook">
+              <div class="rolregel">Welkom bij tekst 1!</div>
+              <div class="rolregel">Dit is de tweede boodschap.</div>
+              <div class="rolregel">Knop vier laat deze tekst zien.</div>
+              <div class="rolregel">Gefeliciteerd! Dit is tekst vijf.</div>
+              <div class="rolregel">Hier staat de derde tekst.</div>
+            </div>
+          </div>
+          <div class="eindtekst">Hier staat de derde tekst.</div>
+        </div>
+
+        <div id="laag4" class="laag">
+          <div class="rolvenster">
+            <div class="rolstrook">
+              <div class="rolregel">Welkom bij tekst 1!</div>
+              <div class="rolregel">Dit is de tweede boodschap.</div>
+              <div class="rolregel">Hier staat de derde tekst.</div>
+              <div class="rolregel">Gefeliciteerd! Dit is tekst vijf.</div>
+              <div class="rolregel">Knop vier laat deze tekst zien.</div>
+            </div>
+          </div>
+          <div class="eindtekst">Knop vier laat deze tekst zien.</div>
+        </div>
+
+        <div id="laag5" class="laag">
+          <div class="rolvenster">
+            <div class="rolstrook">
+              <div class="rolregel">Welkom bij tekst 1!</div>
+              <div class="rolregel">Dit is de tweede boodschap.</div>
+              <div class="rolregel">Hier staat de derde tekst.</div>
+              <div class="rolregel">Knop vier laat deze tekst zien.</div>
+              <div class="rolregel">Gefeliciteerd! Dit is tekst vijf.</div>
+            </div>
+          </div>
+          <div class="eindtekst">Gefeliciteerd! Dit is tekst vijf.</div>
+        </div>
+
+        <div class="uitleg">tijdlijn + lagen</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const knoppen = document.querySelectorAll(".knoppen button");
+    const lagen = document.querySelectorAll(".laag");
+    const starttekst = document.getElementById("starttekst");
+
+    function toonLaag(laagId, knop) {
+      starttekst.style.display = "none";
+
+      lagen.forEach(function(laag) {
+        laag.classList.remove("zichtbaar");
+
+        // Animaties resetten door de laag opnieuw in de DOM te plaatsen.
+        const kopie = laag.cloneNode(true);
+        laag.parentNode.replaceChild(kopie, laag);
+      });
+
+      document.querySelectorAll(".knoppen button").forEach(function(btn) {
+        btn.classList.remove("actief");
+      });
+
+      knop.classList.add("actief");
+
+      const nieuweLaag = document.getElementById(laagId);
+      nieuweLaag.classList.add("zichtbaar");
+    }
+
+    document.addEventListener("click", function(event) {
+      const knop = event.target.closest(".knoppen button");
+
+      if (!knop) {
+        return;
+      }
+
+      toonLaag(knop.dataset.laag, knop);
+    });
+  </script>
+
+</body>
+</html>
