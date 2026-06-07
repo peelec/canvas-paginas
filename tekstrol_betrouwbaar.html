@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tekstrol betrouwbaar</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #20243a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pagina {
+      width: min(1100px, 96vw);
+      min-height: 600px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      padding: 24px;
+      border-radius: 24px;
+      background: #171a2b;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+    .knoppen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px;
+      border-radius: 18px;
+      background: #24283d;
+    }
+
+    .knoppen button {
+      width: 100%;
+      padding: 16px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff8a00, #ff3d77);
+      box-shadow: 0 7px 0 #8f1d42;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .knoppen button:hover {
+      filter: brightness(1.08);
+    }
+
+    .knoppen button:active {
+      transform: translateY(5px);
+      box-shadow: 0 2px 0 #8f1d42;
+    }
+
+    .knoppen button.actief {
+      outline: 4px solid white;
+    }
+
+    .scherm-rand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      border-radius: 24px;
+      background: #080a12;
+      border: 8px solid #f4c542;
+      overflow: hidden;
+    }
+
+    .scherm {
+      width: 100%;
+      max-width: 720px;
+      min-height: 320px;
+      padding: 30px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #151827, #0e101a);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    #tekst {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      line-height: 1.2;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.65);
+      transition: transform 0.08s linear, opacity 0.08s linear, filter 0.08s linear;
+    }
+
+    #tekst.draait {
+      transform: translateY(18px);
+      opacity: 0.55;
+      filter: blur(2px);
+    }
+
+    #tekst.eind {
+      animation: eindBinnen 0.35s ease forwards;
+    }
+
+    @keyframes eindBinnen {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina {
+        grid-template-columns: 145px 1fr;
+        gap: 12px;
+        padding: 12px;
+        min-height: 480px;
+      }
+
+      .knoppen {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .knoppen button {
+        font-size: 14px;
+        padding: 12px 8px;
+      }
+
+      .scherm-rand {
+        padding: 12px;
+        border-width: 5px;
+      }
+
+      .scherm {
+        min-height: 300px;
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="pagina">
+    <aside class="knoppen">
+      <button onclick="startRol(0, this)">Leeruitkomst</button>
+      <button onclick="startRol(1, this)">Werkprocessen</button>
+      <button onclick="startRol(2, this)">Wat heb je nodig?</button>
+      <button onclick="startRol(3, this)">Wat lever je op?</button>
+      <button onclick="startRol(4, this)">Hoe sluit je de cursus af?</button>
+    </aside>
+
+    <section class="scherm-rand">
+      <div class="scherm">
+        <div id="tekst">Klik op een knop</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const teksten = [
+      "De student monteert, installeert en configureert hardware en software conform opdracht en geldende procedures, waarbij hij/zij veiligheid, privacy en werkende netwerkaansluiting waarborgt, zorgvuldig en systematisch werkt, verspilling voorkomt en de werkzaamheden correct administreert.",
+      "B1-K1-W1: maakt devices gebruiksklaar.
+B1-K1-W2: installeert en onderhoudt software.
+B1-K1-W3: lost technische problemen op.
+B1-K2-W2: instrueert gebruikers.",
+      "Je werkt met hardware, software, gereedschap en de opdrachten in Canvas. De benodigde materialen zijn aanwezig op school.",
+      "Je levert opdrachten, bewijs van je werk, checklists of werkbonnen en het eindresultaat van het beroepsproject op.",
+      "Je sluit de cursus af met het beroepsproject Sigrid Styling. Daarin laat je zien dat je een device zelfstandig en netjes gebruiksklaar kunt maken."
+    ];
+
+    let rolTimer = null;
+    let stopTimer = null;
+    let teller = 0;
+
+    function startRol(index, knop) {
+      const tekstvak = document.getElementById("tekst");
+
+      clearInterval(rolTimer);
+      clearTimeout(stopTimer);
+
+      document.querySelectorAll(".knoppen button").forEach(function(btn) {
+        btn.classList.remove("actief");
+      });
+      knop.classList.add("actief");
+
+      tekstvak.classList.remove("eind");
+
+      teller = index + 1;
+
+      rolTimer = setInterval(function() {
+        tekstvak.classList.toggle("draait");
+        tekstvak.textContent = teksten[teller % teksten.length];
+        teller++;
+      }, 120);
+
+      stopTimer = setTimeout(function() {
+        clearInterval(rolTimer);
+        tekstvak.classList.remove("draait");
+        tekstvak.textContent = teksten[index];
+
+        void tekstvak.offsetWidth;
+        tekstvak.classList.add("eind");
+      }, 1800);
+    }
+  </script>
+
+</body>
+</html>
