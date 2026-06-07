@@ -6,76 +6,401 @@
 <title>Sigrid Styling - Space Crawl</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:#111827;font-family:Arial,Helvetica,sans-serif;color:white;padding:16px;overflow:hidden}
-.scene{width:min(1000px,96vw);height:500px;max-height:500px;position:relative;overflow:hidden;background:radial-gradient(circle at 20% 20%,rgba(86,199,255,.12),transparent 25%),radial-gradient(circle at 80% 10%,rgba(255,216,74,.08),transparent 22%),linear-gradient(180deg,#01020a,#050716 65%,#01020a);border:5px solid #000;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.55);perspective:420px;isolation:isolate}
-.stars,.stars:before,.stars:after{position:absolute;inset:0;content:"";background-repeat:repeat;pointer-events:none}
-.stars{background-image:radial-gradient(circle,rgba(255,255,255,.9) 0 1px,transparent 1.5px);background-size:72px 72px;opacity:.75;animation:starsMove 14s linear infinite}
-.stars:before{background-image:radial-gradient(circle,rgba(255,255,255,.85) 0 1px,transparent 1.5px);background-size:113px 113px;background-position:20px 40px;opacity:.55;animation:starsMove 20s linear infinite}
-.stars:after{background-image:radial-gradient(circle,rgba(86,199,255,.9) 0 1px,transparent 1.5px);background-size:151px 151px;background-position:50px 12px;opacity:.45;animation:starsMove 26s linear infinite}
-.fade-top{position:absolute;z-index:6;left:0;right:0;top:0;height:170px;background:linear-gradient(180deg,#01020a 0%,rgba(1,2,10,.88) 36%,transparent 100%);pointer-events:none}
-.fade-bottom{position:absolute;z-index:6;left:0;right:0;bottom:0;height:80px;background:linear-gradient(0deg,#01020a 0%,transparent 100%);pointer-events:none}
-.intro{position:absolute;inset:0;display:grid;place-items:center;z-index:8;text-align:center;padding:30px;color:#56c7ff;font-weight:700;font-size:clamp(1.3rem,3vw,2.4rem);letter-spacing:.5px;animation:introFade 5s ease forwards;text-shadow:0 0 18px rgba(86,199,255,.75)}
-.crawl-wrap{position:absolute;z-index:4;left:50%;bottom:-370px;width:min(720px,82%);height:850px;transform:translateX(-50%) rotateX(58deg);transform-origin:50% 100%;overflow:visible}
-.crawl{position:absolute;left:0;right:0;bottom:-30px;color:#ffd84a;text-align:justify;font-weight:900;line-height:1.45;letter-spacing:.8px;font-size:clamp(1.35rem,2.8vw,2.4rem);text-shadow:0 0 12px rgba(255,216,74,.55);animation:crawl 38s linear 3.8s forwards}
-.crawl h1{text-align:center;margin:0 0 18px;font-size:clamp(2rem,5vw,4rem);line-height:1;text-transform:uppercase;letter-spacing:2px}
-.crawl h2{text-align:center;margin:0 0 28px;font-size:clamp(1.3rem,3vw,2.1rem);text-transform:uppercase;letter-spacing:1px}
-.crawl p{margin:0 0 24px}
-.controls{position:absolute;right:14px;bottom:14px;z-index:10;display:flex;gap:10px}
-button{border:0;border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18);font-weight:900;cursor:pointer;backdrop-filter:blur(8px)}
-button:hover{background:rgba(255,255,255,.2)}
-.hint{position:absolute;left:14px;bottom:14px;z-index:10;color:rgba(255,255,255,.7);font-size:.82rem;font-weight:700;background:rgba(0,0,0,.35);padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
-@keyframes crawl{0%{transform:translateY(0);opacity:1}82%{opacity:1}100%{transform:translateY(-1120px);opacity:0}}
-@keyframes introFade{0%{opacity:0}15%{opacity:1}70%{opacity:1}100%{opacity:0;visibility:hidden}}
-@keyframes starsMove{from{transform:translateY(0)}to{transform:translateY(72px)}}
-@media(max-width:650px){.scene{height:500px}.crawl-wrap{width:88%;bottom:-390px;transform:translateX(-50%) rotateX(62deg)}.hint{display:none}}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  background:#111827;
+  font-family:Arial, Helvetica, sans-serif;
+  color:white;
+  padding:16px;
+  overflow:hidden;
+}
+
+.scene{
+  width:min(1000px,96vw);
+  height:500px;
+  max-height:500px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(86,199,255,.12), transparent 25%),
+    radial-gradient(circle at 80% 10%, rgba(255,216,74,.08), transparent 22%),
+    linear-gradient(180deg,#01020a,#050716 65%,#01020a);
+  border:5px solid #000;
+  border-radius:22px;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);
+  perspective:360px;
+  isolation:isolate;
+}
+
+.stars{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.star{
+  position:absolute;
+  display:block;
+  border-radius:50%;
+  box-shadow:0 0 8px currentColor;
+  animation-name:twinkle;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+}
+
+.fade-top{
+  position:absolute;
+  z-index:6;
+  left:0;
+  right:0;
+  top:0;
+  height:180px;
+  background:linear-gradient(180deg,#01020a 0%,rgba(1,2,10,.90) 34%,transparent 100%);
+  pointer-events:none;
+}
+
+.fade-bottom{
+  position:absolute;
+  z-index:6;
+  left:0;
+  right:0;
+  bottom:0;
+  height:95px;
+  background:linear-gradient(0deg,#01020a 0%, transparent 100%);
+  pointer-events:none;
+}
+
+.intro{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  z-index:8;
+  text-align:center;
+  padding:30px;
+  color:#56c7ff;
+  font-weight:700;
+  font-size:clamp(1.3rem,3vw,2.4rem);
+  letter-spacing:.5px;
+  animation:introFade 5.2s ease forwards;
+  text-shadow:0 0 18px rgba(86,199,255,.75);
+}
+
+.crawl-wrap{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  bottom:-470px;
+  width:min(920px,94%);
+  height:980px;
+  transform:translateX(-50%) rotateX(64deg);
+  transform-origin:50% 100%;
+  overflow:visible;
+}
+
+.crawl{
+  position:absolute;
+  left:-9%;
+  right:-9%;
+  bottom:-260px;
+  color:#ffd84a;
+  text-align:justify;
+  font-weight:900;
+  line-height:1.45;
+  letter-spacing:.8px;
+  font-size:clamp(1.45rem,3.2vw,2.75rem);
+  text-shadow:0 0 12px rgba(255,216,74,.55);
+  opacity:0;
+  animation:crawl 40s linear 5.35s forwards;
+}
+
+.crawl h1{
+  text-align:center;
+  margin:0 0 18px;
+  font-size:clamp(2.2rem,5.4vw,4.5rem);
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.crawl h2{
+  text-align:center;
+  margin:0 0 28px;
+  font-size:clamp(1.35rem,3.2vw,2.3rem);
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.crawl p{
+  margin:0 0 24px;
+}
+
+.controls{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  z-index:10;
+  display:flex;
+  gap:10px;
+}
+
+button{
+  border:0;
+  border-radius:999px;
+  padding:10px 14px;
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.18);
+  font-weight:900;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+}
+
+button:hover{
+  background:rgba(255,255,255,.2);
+}
+
+.hint{
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  z-index:10;
+  color:rgba(255,255,255,.7);
+  font-size:.82rem;
+  font-weight:700;
+  background:rgba(0,0,0,.35);
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+@keyframes crawl{
+  0%{transform:translateY(0) scaleX(1.22); opacity:1}
+  45%{transform:translateY(-520px) scaleX(.84); opacity:1}
+  82%{opacity:1}
+  100%{transform:translateY(-1280px) scaleX(.34); opacity:0}
+}
+
+@keyframes introFade{
+  0%{opacity:0}
+  12%{opacity:1}
+  72%{opacity:1}
+  100%{opacity:0; visibility:hidden}
+}
+
+@keyframes twinkle{
+  0%,100%{transform:scale(.75); filter:brightness(.65); box-shadow:0 0 2px currentColor}
+  38%{transform:scale(1.35); filter:brightness(2.4); box-shadow:0 0 12px currentColor, 0 0 22px currentColor}
+  55%{transform:scale(.9); filter:brightness(.9); box-shadow:0 0 5px currentColor}
+}
+
+@media(max-width:650px){
+  .scene{height:500px}
+  .crawl-wrap{
+    width:96%;
+    bottom:-490px;
+    transform:translateX(-50%) rotateX(66deg);
+  }
+  .crawl{
+    left:-12%;
+    right:-12%;
+    bottom:-290px;
+  }
+  .hint{display:none}
+}
 </style>
 </head>
 <body>
 <main class="scene" id="scene">
-<div class="stars"></div>
-<div class="fade-top"></div>
-<div class="fade-bottom"></div>
-<div class="intro">In een klaslokaal niet zo heel ver hier vandaan...</div>
-<section class="crawl-wrap" aria-label="Introductietekst Sigrid Styling">
-<article class="crawl" id="crawl">
-<h1>Sigrid Styling</h1>
-<h2>Beroepsproject ICT Support</h2>
-<p>Je gaat in deze cursus aan de slag voor Sigrid Styling, een start-up in de stylingbranche.</p>
-<p>Zij hebben twee werkplekken nodig en willen ook graag met een tablet kunnen werken.</p>
-<p>Je gaat de werkplekken inrichten volgens de wensen van de medewerkers.</p>
-<p>Ook installeer je zowel Nederlandse als Engelse software.</p>
-<p>Aan het einde laat je zien dat de werkplekken netjes, veilig en gebruiksklaar zijn opgeleverd.</p>
-</article>
-</section>
-<div class="hint">Sciencefiction tekstcrawl</div>
-<div class="controls">
-<button type="button" id="restart">Opnieuw</button>
-<button type="button" id="pause">Pauze</button>
-</div>
+  <div class="stars" aria-hidden="true">
+      <span class="star" style="left:63.94%; top:2.50%; width:1.5px; height:1.5px; animation-delay:1.22s; animation-duration:1.79s; opacity:0.41; background:#fff2b8;"></span>
+      <span class="star" style="left:8.69%; top:42.19%; width:1px; height:1px; animation-delay:0.47s; animation-duration:2.05s; opacity:0.71; background:#fff2b8;"></span>
+      <span class="star" style="left:19.88%; top:64.99%; width:2.5px; height:2.5px; animation-delay:2.10s; animation-duration:2.66s; opacity:0.52; background:#ffffff;"></span>
+      <span class="star" style="left:75.88%; top:15.97%; width:2px; height:2px; animation-delay:1.70s; animation-duration:1.84s; opacity:0.92; background:#ffffff;"></span>
+      <span class="star" style="left:10.22%; top:37.99%; width:1.5px; height:1.5px; animation-delay:4.24s; animation-duration:3.09s; opacity:0.83; background:#dff5ff;"></span>
+      <span class="star" style="left:53.62%; top:97.31%; width:2px; height:2px; animation-delay:0.39s; animation-duration:2.22s; opacity:0.73; background:#ffffff;"></span>
+      <span class="star" style="left:57.74%; top:70.46%; width:1px; height:1px; animation-delay:3.31s; animation-duration:3.56s; opacity:0.94; background:#ffffff;"></span>
+      <span class="star" style="left:86.65%; top:38.01%; width:2px; height:2px; animation-delay:3.18s; animation-duration:2.42s; opacity:0.57; background:#ffffff;"></span>
+      <span class="star" style="left:67.02%; top:70.18%; width:3px; height:3px; animation-delay:3.24s; animation-duration:3.11s; opacity:0.45; background:#ffffff;"></span>
+      <span class="star" style="left:16.34%; top:37.95%; width:3px; height:3px; animation-delay:3.44s; animation-duration:2.01s; opacity:0.54; background:#ffffff;"></span>
+      <span class="star" style="left:22.90%; top:3.21%; width:1.5px; height:1.5px; animation-delay:2.01s; animation-duration:1.59s; opacity:0.90; background:#fff2b8;"></span>
+      <span class="star" style="left:87.64%; top:31.47%; width:3px; height:3px; animation-delay:2.50s; animation-duration:3.88s; opacity:0.74; background:#ffffff;"></span>
+      <span class="star" style="left:26.49%; top:24.66%; width:2.5px; height:2.5px; animation-delay:2.69s; animation-duration:3.49s; opacity:0.61; background:#fff2b8;"></span>
+      <span class="star" style="left:39.94%; top:21.93%; width:1px; height:1px; animation-delay:2.55s; animation-duration:1.65s; opacity:0.38; background:#ffffff;"></span>
+      <span class="star" style="left:15.28%; top:16.00%; width:3px; height:3px; animation-delay:2.11s; animation-duration:1.58s; opacity:0.58; background:#dff5ff;"></span>
+      <span class="star" style="left:52.91%; top:97.11%; width:1px; height:1px; animation-delay:3.40s; animation-duration:1.72s; opacity:0.88; background:#ffffff;"></span>
+      <span class="star" style="left:76.86%; top:34.02%; width:1.5px; height:1.5px; animation-delay:2.17s; animation-duration:2.67s; opacity:0.92; background:#ffffff;"></span>
+      <span class="star" style="left:97.19%; top:76.20%; width:2.5px; height:2.5px; animation-delay:4.56s; animation-duration:3.84s; opacity:0.53; background:#fff2b8;"></span>
+      <span class="star" style="left:60.90%; top:15.28%; width:1px; height:1px; animation-delay:2.70s; animation-duration:3.58s; opacity:0.67; background:#ffffff;"></span>
+      <span class="star" style="left:59.89%; top:48.86%; width:1px; height:1px; animation-delay:4.65s; animation-duration:3.86s; opacity:0.85; background:#ffffff;"></span>
+      <span class="star" style="left:23.95%; top:24.09%; width:2.5px; height:2.5px; animation-delay:4.73s; animation-duration:1.64s; opacity:0.64; background:#ffffff;"></span>
+      <span class="star" style="left:97.80%; top:53.27%; width:1px; height:1px; animation-delay:0.64s; animation-duration:2.73s; opacity:0.68; background:#ffffff;"></span>
+      <span class="star" style="left:52.77%; top:60.66%; width:1px; height:1px; animation-delay:4.64s; animation-duration:3.51s; opacity:0.76; background:#ffffff;"></span>
+      <span class="star" style="left:39.90%; top:67.17%; width:1.5px; height:1.5px; animation-delay:2.19s; animation-duration:2.85s; opacity:0.42; background:#ffffff;"></span>
+      <span class="star" style="left:6.40%; top:2.10%; width:2.5px; height:2.5px; animation-delay:1.15s; animation-duration:2.02s; opacity:0.39; background:#ffffff;"></span>
+      <span class="star" style="left:22.89%; top:90.54%; width:1.5px; height:1.5px; animation-delay:0.35s; animation-duration:2.07s; opacity:0.75; background:#ffffff;"></span>
+      <span class="star" style="left:53.92%; top:72.34%; width:2.5px; height:2.5px; animation-delay:2.88s; animation-duration:2.08s; opacity:0.63; background:#dff5ff;"></span>
+      <span class="star" style="left:19.04%; top:9.69%; width:2px; height:2px; animation-delay:1.77s; animation-duration:2.55s; opacity:0.87; background:#ffffff;"></span>
+      <span class="star" style="left:67.34%; top:98.42%; width:1px; height:1px; animation-delay:0.30s; animation-duration:3.44s; opacity:0.83; background:#ffffff;"></span>
+      <span class="star" style="left:24.87%; top:19.02%; width:2px; height:2px; animation-delay:0.70s; animation-duration:1.91s; opacity:0.63; background:#ffffff;"></span>
+      <span class="star" style="left:44.31%; top:86.13%; width:2.5px; height:2.5px; animation-delay:0.49s; animation-duration:3.23s; opacity:0.67; background:#ffffff;"></span>
+      <span class="star" style="left:96.90%; top:92.64%; width:1px; height:1px; animation-delay:0.83s; animation-duration:2.76s; opacity:0.48; background:#dff5ff;"></span>
+      <span class="star" style="left:90.24%; top:16.46%; width:1px; height:1px; animation-delay:4.93s; animation-duration:2.14s; opacity:0.82; background:#dff5ff;"></span>
+      <span class="star" style="left:28.52%; top:69.66%; width:3px; height:3px; animation-delay:4.98s; animation-duration:2.96s; opacity:0.78; background:#ffffff;"></span>
+      <span class="star" style="left:18.99%; top:21.77%; width:1px; height:1px; animation-delay:2.90s; animation-duration:2.92s; opacity:0.80; background:#ffffff;"></span>
+      <span class="star" style="left:5.01%; top:47.68%; width:2.5px; height:2.5px; animation-delay:0.79s; animation-duration:4.09s; opacity:0.40; background:#ffffff;"></span>
+      <span class="star" style="left:6.85%; top:6.80%; width:1px; height:1px; animation-delay:2.02s; animation-duration:4.04s; opacity:0.69; background:#fff2b8;"></span>
+      <span class="star" style="left:59.45%; top:61.94%; width:2px; height:2px; animation-delay:3.29s; animation-duration:2.98s; opacity:0.54; background:#ffffff;"></span>
+      <span class="star" style="left:20.43%; top:71.62%; width:1px; height:1px; animation-delay:1.33s; animation-duration:1.77s; opacity:0.74; background:#dff5ff;"></span>
+      <span class="star" style="left:31.62%; top:75.19%; width:1px; height:1px; animation-delay:0.05s; animation-duration:3.14s; opacity:0.69; background:#ffffff;"></span>
+      <span class="star" style="left:7.33%; top:21.32%; width:1.5px; height:1.5px; animation-delay:0.66s; animation-duration:2.38s; opacity:0.39; background:#ffffff;"></span>
+      <span class="star" style="left:36.95%; top:15.77%; width:2.5px; height:2.5px; animation-delay:3.52s; animation-duration:3.11s; opacity:0.94; background:#fff2b8;"></span>
+      <span class="star" style="left:0.78%; top:81.71%; width:1.5px; height:1.5px; animation-delay:4.66s; animation-duration:1.69s; opacity:0.88; background:#ffffff;"></span>
+      <span class="star" style="left:11.54%; top:10.70%; width:2.5px; height:2.5px; animation-delay:0.78s; animation-duration:2.19s; opacity:0.48; background:#ffffff;"></span>
+      <span class="star" style="left:20.36%; top:63.42%; width:1.5px; height:1.5px; animation-delay:2.53s; animation-duration:2.10s; opacity:0.89; background:#ffffff;"></span>
+      <span class="star" style="left:9.23%; top:42.36%; width:1.5px; height:1.5px; animation-delay:0.22s; animation-duration:2.33s; opacity:0.43; background:#ffffff;"></span>
+      <span class="star" style="left:16.16%; top:44.18%; width:3px; height:3px; animation-delay:2.14s; animation-duration:1.43s; opacity:0.40; background:#ffffff;"></span>
+      <span class="star" style="left:54.56%; top:83.46%; width:2.5px; height:2.5px; animation-delay:2.76s; animation-duration:2.60s; opacity:0.38; background:#ffffff;"></span>
+      <span class="star" style="left:89.90%; top:79.61%; width:1px; height:1px; animation-delay:4.49s; animation-duration:1.99s; opacity:0.50; background:#ffffff;"></span>
+      <span class="star" style="left:35.37%; top:55.99%; width:2px; height:2px; animation-delay:4.87s; animation-duration:3.50s; opacity:0.91; background:#ffffff;"></span>
+      <span class="star" style="left:86.46%; top:97.62%; width:1px; height:1px; animation-delay:4.41s; animation-duration:1.47s; opacity:0.79; background:#ffffff;"></span>
+      <span class="star" style="left:78.24%; top:41.17%; width:3px; height:3px; animation-delay:4.32s; animation-duration:3.67s; opacity:0.51; background:#ffffff;"></span>
+      <span class="star" style="left:38.25%; top:3.87%; width:2px; height:2px; animation-delay:1.11s; animation-duration:3.69s; opacity:0.63; background:#ffffff;"></span>
+      <span class="star" style="left:82.05%; top:87.13%; width:1px; height:1px; animation-delay:0.12s; animation-duration:1.94s; opacity:0.55; background:#ffffff;"></span>
+      <span class="star" style="left:96.69%; top:27.91%; width:3px; height:3px; animation-delay:2.55s; animation-duration:3.30s; opacity:0.86; background:#ffffff;"></span>
+      <span class="star" style="left:93.92%; top:11.53%; width:1.5px; height:1.5px; animation-delay:0.89s; animation-duration:4.10s; opacity:0.51; background:#ffffff;"></span>
+      <span class="star" style="left:59.66%; top:34.57%; width:1.5px; height:1.5px; animation-delay:2.18s; animation-duration:4.16s; opacity:0.42; background:#fff2b8;"></span>
+      <span class="star" style="left:19.01%; top:4.44%; width:2px; height:2px; animation-delay:0.01s; animation-duration:3.99s; opacity:0.67; background:#ffffff;"></span>
+      <span class="star" style="left:36.42%; top:7.00%; width:3px; height:3px; animation-delay:4.60s; animation-duration:3.14s; opacity:0.75; background:#ffffff;"></span>
+      <span class="star" style="left:71.98%; top:30.03%; width:1.5px; height:1.5px; animation-delay:3.33s; animation-duration:2.31s; opacity:0.77; background:#fff2b8;"></span>
+      <span class="star" style="left:12.73%; top:42.04%; width:2px; height:2px; animation-delay:3.39s; animation-duration:3.93s; opacity:0.72; background:#ffffff;"></span>
+      <span class="star" style="left:40.61%; top:83.37%; width:1.5px; height:1.5px; animation-delay:1.43s; animation-duration:2.60s; opacity:0.70; background:#ffffff;"></span>
+      <span class="star" style="left:46.50%; top:44.22%; width:1px; height:1px; animation-delay:2.56s; animation-duration:3.62s; opacity:0.93; background:#ffffff;"></span>
+      <span class="star" style="left:65.89%; top:28.38%; width:3px; height:3px; animation-delay:3.16s; animation-duration:2.34s; opacity:0.84; background:#ffffff;"></span>
+      <span class="star" style="left:67.28%; top:22.46%; width:1px; height:1px; animation-delay:0.74s; animation-duration:1.53s; opacity:0.94; background:#fff2b8;"></span>
+      <span class="star" style="left:84.97%; top:7.28%; width:2px; height:2px; animation-delay:4.43s; animation-duration:3.01s; opacity:0.78; background:#dff5ff;"></span>
+      <span class="star" style="left:49.44%; top:24.40%; width:3px; height:3px; animation-delay:3.44s; animation-duration:3.90s; opacity:0.87; background:#ffffff;"></span>
+      <span class="star" style="left:77.84%; top:21.88%; width:3px; height:3px; animation-delay:2.59s; animation-duration:1.54s; opacity:0.50; background:#ffffff;"></span>
+      <span class="star" style="left:45.65%; top:80.14%; width:3px; height:3px; animation-delay:2.66s; animation-duration:2.96s; opacity:0.54; background:#dff5ff;"></span>
+      <span class="star" style="left:61.27%; top:71.93%; width:2.5px; height:2.5px; animation-delay:2.13s; animation-duration:3.94s; opacity:0.62; background:#ffffff;"></span>
+      <span class="star" style="left:74.37%; top:47.47%; width:1.5px; height:1.5px; animation-delay:3.76s; animation-duration:3.75s; opacity:0.52; background:#fff2b8;"></span>
+      <span class="star" style="left:48.46%; top:23.92%; width:2px; height:2px; animation-delay:0.39s; animation-duration:2.20s; opacity:0.51; background:#ffffff;"></span>
+      <span class="star" style="left:89.30%; top:8.06%; width:1px; height:1px; animation-delay:1.16s; animation-duration:3.34s; opacity:0.77; background:#ffffff;"></span>
+      <span class="star" style="left:41.49%; top:33.09%; width:2px; height:2px; animation-delay:2.08s; animation-duration:1.98s; opacity:0.60; background:#fff2b8;"></span>
+      <span class="star" style="left:94.61%; top:1.95%; width:2.5px; height:2.5px; animation-delay:1.90s; animation-duration:1.42s; opacity:0.56; background:#dff5ff;"></span>
+      <span class="star" style="left:85.34%; top:95.34%; width:2px; height:2px; animation-delay:2.69s; animation-duration:3.46s; opacity:0.83; background:#ffffff;"></span>
+      <span class="star" style="left:48.82%; top:27.29%; width:2px; height:2px; animation-delay:0.15s; animation-duration:2.34s; opacity:0.76; background:#dff5ff;"></span>
+      <span class="star" style="left:72.42%; top:84.05%; width:1px; height:1px; animation-delay:4.90s; animation-duration:2.90s; opacity:0.89; background:#fff2b8;"></span>
+      <span class="star" style="left:56.44%; top:2.71%; width:3px; height:3px; animation-delay:2.14s; animation-duration:3.83s; opacity:0.46; background:#ffffff;"></span>
+      <span class="star" style="left:37.91%; top:21.17%; width:1.5px; height:1.5px; animation-delay:1.69s; animation-duration:3.86s; opacity:0.52; background:#dff5ff;"></span>
+      <span class="star" style="left:25.23%; top:8.19%; width:1px; height:1px; animation-delay:3.75s; animation-duration:1.55s; opacity:0.92; background:#ffffff;"></span>
+      <span class="star" style="left:65.01%; top:78.12%; width:3px; height:3px; animation-delay:0.20s; animation-duration:1.49s; opacity:0.50; background:#ffffff;"></span>
+      <span class="star" style="left:62.13%; top:23.85%; width:2px; height:2px; animation-delay:3.35s; animation-duration:2.98s; opacity:0.48; background:#ffffff;"></span>
+      <span class="star" style="left:76.69%; top:16.78%; width:2.5px; height:2.5px; animation-delay:4.82s; animation-duration:3.41s; opacity:0.82; background:#ffffff;"></span>
+      <span class="star" style="left:96.47%; top:10.81%; width:1px; height:1px; animation-delay:4.64s; animation-duration:3.01s; opacity:0.89; background:#dff5ff;"></span>
+      <span class="star" style="left:39.67%; top:71.50%; width:1px; height:1px; animation-delay:2.96s; animation-duration:3.73s; opacity:0.50; background:#ffffff;"></span>
+      <span class="star" style="left:85.03%; top:60.04%; width:1px; height:1px; animation-delay:3.98s; animation-duration:2.98s; opacity:0.37; background:#fff2b8;"></span>
+      <span class="star" style="left:42.84%; top:37.06%; width:2.5px; height:2.5px; animation-delay:3.24s; animation-duration:1.44s; opacity:0.60; background:#dff5ff;"></span>
+      <span class="star" style="left:10.55%; top:96.08%; width:3px; height:3px; animation-delay:4.46s; animation-duration:2.69s; opacity:0.44; background:#ffffff;"></span>
+      <span class="star" style="left:73.38%; top:96.55%; width:1.5px; height:1.5px; animation-delay:3.08s; animation-duration:3.97s; opacity:0.81; background:#dff5ff;"></span>
+      <span class="star" style="left:43.56%; top:73.10%; width:1.5px; height:1.5px; animation-delay:1.61s; animation-duration:2.09s; opacity:0.91; background:#ffffff;"></span>
+      <span class="star" style="left:88.16%; top:24.39%; width:2px; height:2px; animation-delay:2.85s; animation-duration:3.27s; opacity:0.55; background:#dff5ff;"></span>
+      <span class="star" style="left:85.10%; top:18.18%; width:1px; height:1px; animation-delay:1.77s; animation-duration:2.12s; opacity:0.52; background:#fff2b8;"></span>
+      <span class="star" style="left:70.12%; top:27.63%; width:1px; height:1px; animation-delay:2.58s; animation-duration:1.93s; opacity:0.49; background:#dff5ff;"></span>
+      <span class="star" style="left:48.86%; top:75.82%; width:3px; height:3px; animation-delay:2.38s; animation-duration:3.39s; opacity:0.62; background:#ffffff;"></span>
+      <span class="star" style="left:9.31%; top:22.16%; width:3px; height:3px; animation-delay:1.22s; animation-duration:3.26s; opacity:0.57; background:#fff2b8;"></span>
+      <span class="star" style="left:53.09%; top:42.55%; width:3px; height:3px; animation-delay:2.75s; animation-duration:2.39s; opacity:0.62; background:#ffffff;"></span>
+      <span class="star" style="left:25.14%; top:12.07%; width:1px; height:1px; animation-delay:1.58s; animation-duration:3.48s; opacity:0.92; background:#ffffff;"></span>
+      <span class="star" style="left:19.15%; top:73.86%; width:1.5px; height:1.5px; animation-delay:3.62s; animation-duration:4.13s; opacity:0.66; background:#ffffff;"></span>
+      <span class="star" style="left:98.05%; top:83.26%; width:1.5px; height:1.5px; animation-delay:1.14s; animation-duration:1.90s; opacity:0.36; background:#fff2b8;"></span>
+      <span class="star" style="left:12.66%; top:4.55%; width:1px; height:1px; animation-delay:2.77s; animation-duration:3.35s; opacity:0.43; background:#dff5ff;"></span>
+      <span class="star" style="left:10.26%; top:1.23%; width:1.5px; height:1.5px; animation-delay:2.35s; animation-duration:2.63s; opacity:0.46; background:#ffffff;"></span>
+      <span class="star" style="left:25.25%; top:86.17%; width:1px; height:1px; animation-delay:4.11s; animation-duration:2.52s; opacity:0.39; background:#ffffff;"></span>
+      <span class="star" style="left:15.17%; top:81.11%; width:1.5px; height:1.5px; animation-delay:0.43s; animation-duration:2.09s; opacity:0.68; background:#dff5ff;"></span>
+      <span class="star" style="left:60.63%; top:79.07%; width:1px; height:1px; animation-delay:3.88s; animation-duration:2.47s; opacity:0.90; background:#ffffff;"></span>
+      <span class="star" style="left:86.02%; top:99.00%; width:1.5px; height:1.5px; animation-delay:2.84s; animation-duration:1.57s; opacity:0.93; background:#ffffff;"></span>
+      <span class="star" style="left:94.76%; top:20.78%; width:1px; height:1px; animation-delay:1.32s; animation-duration:1.63s; opacity:0.49; background:#fff2b8;"></span>
+      <span class="star" style="left:7.51%; top:0.27%; width:2px; height:2px; animation-delay:3.45s; animation-duration:2.72s; opacity:0.37; background:#ffffff;"></span>
+      <span class="star" style="left:70.70%; top:70.30%; width:2px; height:2px; animation-delay:0.36s; animation-duration:2.05s; opacity:0.51; background:#fff2b8;"></span>
+      <span class="star" style="left:66.12%; top:93.37%; width:2px; height:2px; animation-delay:0.57s; animation-duration:2.03s; opacity:0.44; background:#ffffff;"></span>
+      <span class="star" style="left:82.66%; top:7.14%; width:1px; height:1px; animation-delay:3.96s; animation-duration:3.07s; opacity:0.84; background:#ffffff;"></span>
+      <span class="star" style="left:43.92%; top:46.87%; width:1.5px; height:1.5px; animation-delay:3.50s; animation-duration:4.04s; opacity:0.65; background:#dff5ff;"></span>
+      <span class="star" style="left:43.78%; top:59.80%; width:2px; height:2px; animation-delay:3.67s; animation-duration:3.09s; opacity:0.37; background:#ffffff;"></span>
+      <span class="star" style="left:96.19%; top:83.60%; width:2.5px; height:2.5px; animation-delay:2.94s; animation-duration:1.46s; opacity:0.81; background:#ffffff;"></span>
+      <span class="star" style="left:57.62%; top:76.31%; width:1px; height:1px; animation-delay:2.35s; animation-duration:3.22s; opacity:0.90; background:#ffffff;"></span>
+      <span class="star" style="left:99.69%; top:43.59%; width:2px; height:2px; animation-delay:4.85s; animation-duration:2.72s; opacity:0.60; background:#ffffff;"></span>
+      <span class="star" style="left:67.01%; top:85.77%; width:1.5px; height:1.5px; animation-delay:2.06s; animation-duration:2.79s; opacity:0.75; background:#dff5ff;"></span>
+      <span class="star" style="left:81.36%; top:55.01%; width:2px; height:2px; animation-delay:0.44s; animation-duration:2.11s; opacity:0.42; background:#dff5ff;"></span>
+      <span class="star" style="left:86.49%; top:82.49%; width:1px; height:1px; animation-delay:3.29s; animation-duration:2.92s; opacity:0.60; background:#ffffff;"></span>
+      <span class="star" style="left:51.84%; top:62.26%; width:2px; height:2px; animation-delay:3.13s; animation-duration:3.53s; opacity:0.47; background:#fff2b8;"></span>
+  </div>
+
+  <div class="fade-top"></div>
+  <div class="fade-bottom"></div>
+
+  <div class="intro">In een klaslokaal niet zo heel ver hier vandaan...</div>
+
+  <section class="crawl-wrap" aria-label="Introductietekst Sigrid Styling">
+    <article class="crawl" id="crawl">
+      <h1>Sigrid Styling</h1>
+      <h2>Beroepsproject ICT Support</h2>
+
+      <p>Je gaat in deze cursus aan de slag voor Sigrid Styling, een start-up in de stylingbranche.</p>
+      <p>Zij hebben twee werkplekken nodig en willen ook graag met een tablet kunnen werken.</p>
+      <p>Je gaat de werkplekken inrichten volgens de wensen van de medewerkers.</p>
+      <p>Ook installeer je zowel Nederlandse als Engelse software.</p>
+      <p>Aan het einde laat je zien dat de werkplekken netjes, veilig en gebruiksklaar zijn opgeleverd.</p>
+    </article>
+  </section>
+
+  <div class="hint">Sciencefiction tekstcrawl</div>
+
+  <div class="controls">
+    <button type="button" id="restart">Opnieuw</button>
+    <button type="button" id="pause">Pauze</button>
+  </div>
 </main>
+
 <script>
-const crawl=document.querySelector("#crawl");
-const intro=document.querySelector(".intro");
-const restart=document.querySelector("#restart");
-const pause=document.querySelector("#pause");
-let paused=false;
-restart.addEventListener("click",()=>{
-  crawl.style.animation="none";
-  intro.style.animation="none";
+const crawl = document.querySelector("#crawl");
+const intro = document.querySelector(".intro");
+const restart = document.querySelector("#restart");
+const pause = document.querySelector("#pause");
+const stars = document.querySelectorAll(".star");
+
+let paused = false;
+
+function restartAnimations() {
+  crawl.style.animation = "none";
+  intro.style.animation = "none";
+
   void crawl.offsetWidth;
   void intro.offsetWidth;
-  crawl.style.animation="crawl 38s linear 3.8s forwards";
-  intro.style.animation="introFade 5s ease forwards";
-  paused=false;
-  pause.textContent="Pauze";
-  crawl.style.animationPlayState="running";
-  intro.style.animationPlayState="running";
-});
-pause.addEventListener("click",()=>{
-  paused=!paused;
-  crawl.style.animationPlayState=paused?"paused":"running";
-  intro.style.animationPlayState=paused?"paused":"running";
-  pause.textContent=paused?"Verder":"Pauze";
+
+  crawl.style.animation = "crawl 40s linear 5.35s forwards";
+  intro.style.animation = "introFade 5.2s ease forwards";
+
+  paused = false;
+  pause.textContent = "Pauze";
+  crawl.style.animationPlayState = "running";
+  intro.style.animationPlayState = "running";
+  stars.forEach(star => star.style.animationPlayState = "running");
+}
+
+restart.addEventListener("click", restartAnimations);
+
+pause.addEventListener("click", () => {
+  paused = !paused;
+  crawl.style.animationPlayState = paused ? "paused" : "running";
+  intro.style.animationPlayState = paused ? "paused" : "running";
+  stars.forEach(star => star.style.animationPlayState = paused ? "paused" : "running");
+  pause.textContent = paused ? "Verder" : "Pauze";
 });
 </script>
 </body>
