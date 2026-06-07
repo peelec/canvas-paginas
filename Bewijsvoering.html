@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bewijs Swipe Compact</title>
+  <style>
+    :root{
+      --bg1:#0d1028;
+      --bg2:#1a2057;
+      --pink:#ff44bf;
+      --blue:#18d8ff;
+      --yellow:#ffe45f;
+      --green:#63f7a0;
+      --red:#ff6678;
+      --white:#ffffff;
+      --text:#15192f;
+      --muted:#5f6787;
+      --panel:#f7f9ff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255,68,191,.28), transparent 22%),
+        radial-gradient(circle at 84% 12%, rgba(24,216,255,.24), transparent 22%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      color:#fff;
+      padding:16px;
+    }
+
+    .app{
+      width:min(1000px, 100%);
+      height:min(600px, calc(100vh - 32px));
+      border-radius:28px;
+      overflow:hidden;
+      display:grid;
+      grid-template-rows:72px 1fr 76px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 24px 60px rgba(0,0,0,.35);
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 18px;
+      background:rgba(9, 12, 31, .55);
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+
+    .brand{
+      font-size:1.7rem;
+      font-weight:1000;
+      letter-spacing:-1px;
+      white-space:nowrap;
+    }
+
+    .brand span{
+      background:linear-gradient(90deg, var(--pink), var(--blue), var(--yellow));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .top-info{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      color:#edf0ff;
+      border-radius:999px;
+      padding:9px 12px;
+      font-size:.92rem;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .main{
+      position:relative;
+      padding:14px;
+      min-height:0;
+    }
+
+    .play-area{
+      position:relative;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      background-size:28px 28px, 28px 28px, auto;
+      min-height:0;
+      height:100%;
+    }
+
+    .lane{
+      position:absolute;
+      top:14px;
+      bottom:14px;
+      width:20%;
+      border-radius:20px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding-top:14px;
+      font-size:.92rem;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      pointer-events:none;
+      opacity:.95;
+    }
+
+    .lane.left{
+      left:14px;
+      background:linear-gradient(180deg, rgba(255,102,120,.22), rgba(255,102,120,.06));
+      border:2px dashed rgba(255,102,120,.30);
+      color:#ffe4e8;
+    }
+
+    .lane.right{
+      right:14px;
+      background:linear-gradient(180deg, rgba(99,247,160,.22), rgba(99,247,160,.06));
+      border:2px dashed rgba(99,247,160,.30);
+      color:#e4fff0;
+    }
+
+    .stack{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding:26px 0;
+    }
+
+    .card-wrap{
+      position:relative;
+      width:min(560px, calc(100% - 70px));
+      height:min(350px, calc(100% - 60px));
+    }
+
+    .card{
+      position:absolute;
+      inset:0;
+      border-radius:26px;
+      background:var(--white);
+      color:var(--text);
+      border:2px solid rgba(21,25,47,.08);
+      box-shadow:0 18px 42px rgba(0,0,0,.20);
+      padding:22px 24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      touch-action:none;
+      user-select:none;
+      transition:transform .25s ease, opacity .25s ease;
+    }
+
+    .card:nth-child(2){ transform:scale(.97) translateY(8px); opacity:.92; }
+    .card:nth-child(3){ transform:scale(.94) translateY(16px); opacity:.78; }
+
+    .type{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      background:#eef3ff;
+      color:#273152;
+      border-radius:999px;
+      font-size:.92rem;
+      font-weight:900;
+    }
+
+    .card h1{
+      margin:14px 0 10px;
+      font-size:2rem;
+      line-height:1.02;
+      letter-spacing:-1px;
+    }
+
+    .card p{
+      margin:0;
+      font-size:1.03rem;
+      line-height:1.5;
+      color:#26304d;
+      max-width:96%;
+    }
+
+    .meta{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .meta-box{
+      background:#f4f7ff;
+      border:1px solid #dfe7ff;
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .meta-box strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:.84rem;
+      text-transform:uppercase;
+      color:#6a54f8;
+    }
+
+    .meta-box span{
+      color:#28304e;
+      line-height:1.35;
+      font-size:.93rem;
+    }
+
+    .decision{
+      position:absolute;
+      top:18px;
+      padding:8px 12px;
+      border-radius:12px;
+      font-size:1rem;
+      font-weight:1000;
+      letter-spacing:.4px;
+      opacity:0;
+    }
+
+    .decision.left{
+      left:18px;
+      background:var(--red);
+      color:#fff;
+      border:3px solid #fff;
+      transform:rotate(-10deg);
+    }
+
+    .decision.right{
+      right:18px;
+      background:var(--green);
+      color:#102118;
+      border:3px solid #fff;
+      transform:rotate(10deg);
+    }
+
+    .end-screen{
+      position:absolute;
+      inset:0;
+      display:none;
+      padding:22px;
+      overflow:auto;
+      background:linear-gradient(135deg, #eef4ff, #f9fbff);
+      color:var(--text);
+    }
+
+    .end-screen.show{ display:block; }
+
+    .end-header{
+      text-align:center;
+      margin-bottom:16px;
+    }
+
+    .score{
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:16px;
+      background:#eef3ff;
+      border:1px solid #d8e2ff;
+      color:#25304e;
+      font-size:1rem;
+      font-weight:1000;
+      margin-bottom:12px;
+    }
+
+    .end-screen h2{
+      margin:0 0 8px;
+      font-size:1.8rem;
+      letter-spacing:-.8px;
+    }
+
+    .end-screen p{
+      margin:0;
+      color:#33405f;
+      line-height:1.45;
+    }
+
+    .summary-box{
+      max-width:620px;
+      margin:0 auto 16px;
+      background:#fff;
+      border:1px solid #dfe7ff;
+      border-radius:20px;
+      padding:16px;
+      text-align:left;
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+
+    .summary-box h3{
+      margin:0 0 10px;
+      font-size:1.08rem;
+      text-align:center;
+    }
+
+    .summary-box ul{
+      margin:0;
+      padding-left:18px;
+      color:#25304e;
+      line-height:1.45;
+    }
+
+    .summary-box p{
+      color:#25304e;
+      margin:0 0 10px;
+    }
+
+    .results{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .result-box{
+      background:#fff;
+      border:1px solid #dfe7ff;
+      border-radius:20px;
+      padding:14px;
+    }
+
+    .result-box h3{
+      margin:0 0 10px;
+      font-size:1rem;
+    }
+
+    .result-box ul{
+      margin:0;
+      padding-left:18px;
+      color:#25304e;
+      line-height:1.45;
+    }
+
+    .controls{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      padding:12px 18px;
+      background:rgba(9, 12, 31, .55);
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+
+    .btn{
+      border:0;
+      border-radius:16px;
+      min-width:170px;
+      padding:13px 16px;
+      font-size:1rem;
+      font-weight:950;
+      cursor:pointer;
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+    }
+
+    .btn-left{
+      background:linear-gradient(90deg, #ff7282, #ff9a72);
+      color:#fff;
+    }
+
+    .btn-right{
+      background:linear-gradient(90deg, var(--yellow), var(--green));
+      color:#162033;
+    }
+
+    .btn-reset{
+      background:#eef3ff;
+      color:#26304d;
+      min-width:130px;
+    }
+
+    @media (max-width:920px){
+      .app{
+        width:100%;
+        height:auto;
+        min-height:600px;
+      }
+      .card-wrap{
+        width:min(560px, calc(100% - 30px));
+      }
+      .results{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">Bewijs<span>Swipe</span></div>
+      <div class="top-info">
+        <div class="pill">Links = fout bewijs</div>
+        <div class="pill">Rechts = goed bewijs</div>
+        <div class="pill">Kaart <span id="progress">1</span>/<span id="totalTop">10</span></div>
+      </div>
+    </header>
+
+    <section class="main">
+      <section class="play-area">
+        <div class="lane left">Fout</div>
+        <div class="lane right">Goed</div>
+
+        <div class="stack">
+          <div class="card-wrap" id="stack"></div>
+        </div>
+
+        <section class="end-screen" id="endScreen">
+          <div class="end-header">
+            <div class="score" id="scoreText">Score</div>
+            <h2>Overzicht goede bewijzen</h2>
+            <p>Je hebt alle kaarten beoordeeld. Hieronder zie je de samenvatting en jouw resultaat.</p>
+          </div>
+
+          <div class="summary-box">
+            <h3>Wat is goed bewijs?</h3>
+            <p>Goed bewijs laat duidelijk zien <strong>wat je gedaan hebt</strong>, <strong>hoe je dat gedaan hebt</strong> en <strong>wat het resultaat was</strong>.</p>
+            <ul>
+              <li>foto van je werkplek of hardware</li>
+              <li>screenshot van installatie of instellingen</li>
+              <li>ingevulde checklist of werkbon</li>
+              <li>korte uitleg van je stappen</li>
+              <li>testresultaat: wat werkt wel en wat werkt niet</li>
+            </ul>
+          </div>
+
+          <div class="results">
+            <div class="result-box">
+              <h3>Goede bewijzen</h3>
+              <ul id="goodList"></ul>
+            </div>
+            <div class="result-box">
+              <h3>Jouw antwoorden</h3>
+              <ul id="resultList"></ul>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+
+    <footer class="controls">
+      <button class="btn btn-left" id="btnLeft" type="button">⬅ Fout bewijs</button>
+      <button class="btn btn-reset" id="btnReset" type="button">Opnieuw</button>
+      <button class="btn btn-right" id="btnRight" type="button">Goed bewijs ➡</button>
+    </footer>
+  </main>
+
+  <script>
+    const cardsData = [
+      {
+        title: "Foto van je werkplek of hardware",
+        text: "Je laat duidelijk de opstelling, computer, kabels of hardware zien waarmee je gewerkt hebt.",
+        category: "good",
+        icon: "📷",
+        why: "Dit laat concreet zien waar en waarmee je hebt gewerkt.",
+        tip: "Maak de foto scherp en zorg dat de belangrijkste onderdelen zichtbaar zijn."
+      },
+      {
+        title: "Wazige foto zonder duidelijk onderwerp",
+        text: "Er is wel een foto, maar je ziet niet goed wat erop staat of wat ermee bewezen wordt.",
+        category: "bad",
+        icon: "🌫️",
+        why: "Dit is te onduidelijk en daardoor niet goed controleerbaar.",
+        tip: "Zorg voor een scherpe foto met duidelijk bewijs in beeld."
+      },
+      {
+        title: "Screenshot van installatie of instellingen",
+        text: "Je laat met een screenshot zien welke installatie of instelling je hebt uitgevoerd.",
+        category: "good",
+        icon: "🖥️",
+        why: "Een screenshot laat precies zien wat je hebt ingesteld of geïnstalleerd.",
+        tip: "Zorg dat naam, datum of relevante instelling zichtbaar is."
+      },
+      {
+        title: "Alleen zeggen: ‘Het werkt’",
+        text: "Je schrijft alleen op dat iets gelukt is, zonder beeld, uitleg of resultaat.",
+        category: "bad",
+        icon: "🗯️",
+        why: "Een losse uitspraak is geen sterk bewijs.",
+        tip: "Voeg beeld, uitleg of testresultaten toe."
+      },
+      {
+        title: "Ingevulde checklist of werkbon",
+        text: "Een volledig ingevulde checklist of werkbon laat zien welke taken je hebt uitgevoerd.",
+        category: "good",
+        icon: "📝",
+        why: "Dit maakt zichtbaar welke stappen of controles je hebt gedaan.",
+        tip: "Vul alle onderdelen netjes in en maak de foto of scan leesbaar."
+      },
+      {
+        title: "Lege checklist zonder invulling",
+        text: "Je hebt wel het formulier, maar er staat niets ingevuld of afgetekend.",
+        category: "bad",
+        icon: "📄",
+        why: "Zonder invulling bewijst het formulier niets.",
+        tip: "Laat zien wat je echt hebt ingevuld of afgetekend."
+      },
+      {
+        title: "Korte uitleg van je stappen",
+        text: "Je beschrijft kort welke stappen je hebt uitgevoerd en in welke volgorde.",
+        category: "good",
+        icon: "🧠",
+        why: "Hiermee wordt je werkwijze inzichtelijk en controleerbaar.",
+        tip: "Schrijf kort, duidelijk en in de juiste volgorde."
+      },
+      {
+        title: "Foto van internet gebruiken",
+        text: "Je gebruikt een willekeurige afbeelding van internet in plaats van je eigen bewijs.",
+        category: "bad",
+        icon: "🌐",
+        why: "Dit laat niet jouw eigen werk zien.",
+        tip: "Gebruik altijd bewijs van je eigen werk of eigen omgeving."
+      },
+      {
+        title: "Testresultaat: wat werkt wel en wat werkt niet",
+        text: "Je laat zien wat het resultaat is en benoemt ook wat nog niet goed werkt.",
+        category: "good",
+        icon: "✅",
+        why: "Testresultaten tonen het echte effect van je werk.",
+        tip: "Noem zowel successen als fouten of aandachtspunten."
+      },
+      {
+        title: "Alleen een selfie naast een computer",
+        text: "Je staat wel op de foto, maar er is niet zichtbaar wat je precies hebt gedaan.",
+        category: "bad",
+        icon: "🤳",
+        why: "Dit bewijst onvoldoende welke taak is uitgevoerd.",
+        tip: "Laat het werk, de handeling of het resultaat duidelijk zien."
+      }
+    ];
+
+    const stack = document.getElementById("stack");
+    const endScreen = document.getElementById("endScreen");
+    const btnLeft = document.getElementById("btnLeft");
+    const btnRight = document.getElementById("btnRight");
+    const btnReset = document.getElementById("btnReset");
+    const progress = document.getElementById("progress");
+    const totalTop = document.getElementById("totalTop");
+    const goodList = document.getElementById("goodList");
+    const resultList = document.getElementById("resultList");
+    const scoreText = document.getElementById("scoreText");
+
+    let currentIndex = 0;
+    let correct = 0;
+    let answered = [];
+
+    totalTop.textContent = cardsData.length;
+
+    function createCard(data, index){
+      const card = document.createElement("article");
+      card.className = "card";
+      card.dataset.index = index;
+      card.innerHTML = `
+        <div>
+          <div class="decision left">FOUT</div>
+          <div class="decision right">GOED</div>
+          <div class="type">${data.icon} Bewijskaart</div>
+          <h1>${data.title}</h1>
+          <p>${data.text}</p>
+          <div class="meta">
+            <div class="meta-box">
+              <strong>Waarom?</strong>
+              <span>${data.why}</span>
+            </div>
+            <div class="meta-box">
+              <strong>Tip</strong>
+              <span>${data.tip}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      addSwipe(card);
+      return card;
+    }
+
+    function renderStack(){
+      if(currentIndex >= cardsData.length){
+        showEndScreen();
+        return;
+      }
+
+      stack.innerHTML = "";
+      const visible = cardsData.slice(currentIndex, currentIndex + 3);
+      visible.reverse().forEach((data, i) => {
+        const realIndex = currentIndex + (visible.length - 1 - i);
+        stack.appendChild(createCard(cardsData[realIndex], realIndex));
+      });
+      progress.textContent = currentIndex + 1;
+    }
+
+    function evaluate(direction){
+      const card = stack.querySelector(".card:last-child");
+      if(!card) return;
+
+      const index = Number(card.dataset.index);
+      const data = cardsData[index];
+      const userChoice = direction === "right" ? "good" : "bad";
+      const isCorrect = userChoice === data.category;
+
+      if(isCorrect) correct++;
+      answered.push({
+        title: data.title,
+        actual: data.category,
+        choice: userChoice,
+        correct: isCorrect
+      });
+
+      card.style.transition = "transform .35s ease, opacity .35s ease";
+      card.style.transform = direction === "right"
+        ? "translate(120%, -10px) rotate(16deg)"
+        : "translate(-120%, -10px) rotate(-16deg)";
+      card.style.opacity = "0";
+
+      setTimeout(() => {
+        currentIndex++;
+        renderStack();
+      }, 280);
+    }
+
+    function showEndScreen(){
+      endScreen.classList.add("show");
+      progress.textContent = cardsData.length;
+      scoreText.textContent = `Score: ${correct} van de ${cardsData.length} goed`;
+
+      goodList.innerHTML = "";
+      resultList.innerHTML = "";
+
+      cardsData.filter(item => item.category === "good").forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item.title;
+        goodList.appendChild(li);
+      });
+
+      answered.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.title} — ${item.correct ? "goed beoordeeld" : "fout beoordeeld"}`;
+        resultList.appendChild(li);
+      });
+    }
+
+    function resetGame(){
+      currentIndex = 0;
+      correct = 0;
+      answered = [];
+      endScreen.classList.remove("show");
+      renderStack();
+    }
+
+    function addSwipe(card){
+      let startX = 0;
+      let currentX = 0;
+      let dragging = false;
+
+      const leftBadge = card.querySelector(".decision.left");
+      const rightBadge = card.querySelector(".decision.right");
+
+      const onPointerMove = (e) => {
+        if(!dragging) return;
+        currentX = e.clientX - startX;
+        const rotate = currentX * 0.05;
+        card.style.transition = "none";
+        card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+
+        if(currentX < 0){
+          leftBadge.style.opacity = Math.min(Math.abs(currentX) / 90, 1);
+          rightBadge.style.opacity = 0;
+        } else {
+          rightBadge.style.opacity = Math.min(Math.abs(currentX) / 90, 1);
+          leftBadge.style.opacity = 0;
+        }
+      };
+
+      const onPointerUp = () => {
+        if(!dragging) return;
+        dragging = false;
+
+        if(currentX > 110){
+          evaluate("right");
+        } else if(currentX < -110){
+          evaluate("left");
+        } else {
+          card.style.transition = "transform .22s ease";
+          card.style.transform = "translateX(0) rotate(0)";
+          leftBadge.style.opacity = 0;
+          rightBadge.style.opacity = 0;
+        }
+
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", onPointerUp);
+      };
+
+      card.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        startX = e.clientX;
+        currentX = 0;
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", onPointerUp);
+      });
+    }
+
+    btnLeft.addEventListener("click", () => evaluate("left"));
+    btnRight.addEventListener("click", () => evaluate("right"));
+    btnReset.addEventListener("click", resetGame);
+
+    renderStack();
+  </script>
+</body>
+</html>
