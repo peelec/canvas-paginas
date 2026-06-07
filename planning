@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planning Puzzel</title>
+  <style>
+    :root{
+      --bg1:#0d1028;
+      --bg2:#1a2057;
+      --pink:#ff44bf;
+      --blue:#18d8ff;
+      --yellow:#ffe45f;
+      --green:#63f7a0;
+      --red:#ff6678;
+      --white:#ffffff;
+      --text:#15192f;
+      --muted:#5f6787;
+      --panel:#f7f9ff;
+      --line:#dce4ec;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255,68,191,.28), transparent 22%),
+        radial-gradient(circle at 84% 12%, rgba(24,216,255,.24), transparent 22%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      color:#fff;
+      padding:16px;
+    }
+
+    .app{
+      width:min(1000px, 100%);
+      height:min(600px, calc(100vh - 32px));
+      border-radius:28px;
+      overflow:hidden;
+      display:grid;
+      grid-template-rows:72px 1fr 78px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 24px 60px rgba(0,0,0,.35);
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 18px;
+      background:rgba(9, 12, 31, .55);
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+
+    .brand{
+      font-size:1.7rem;
+      font-weight:1000;
+      letter-spacing:-1px;
+      white-space:nowrap;
+    }
+    .brand span{
+      background:linear-gradient(90deg, var(--pink), var(--blue), var(--yellow));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .pill{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      color:#edf0ff;
+      border-radius:999px;
+      padding:9px 12px;
+      font-size:.92rem;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .main{
+      display:grid;
+      grid-template-columns: 1.25fr .85fr;
+      gap:14px;
+      padding:14px;
+      min-height:0;
+    }
+
+    .panel{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;
+      overflow:hidden;
+      min-height:0;
+    }
+
+    .table-wrap{
+      padding:14px;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .table-title{
+      color:#fff;
+      font-weight:900;
+      font-size:1rem;
+      padding:0 2px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 12px 28px rgba(0,0,0,.08);
+      table-layout:fixed;
+    }
+
+    th{
+      background:#181f2a;
+      color:#fff;
+      padding:10px;
+      text-align:left;
+      font-size:.92rem;
+      border:1px solid #2a3444;
+    }
+
+    td{
+      border:1px solid var(--line);
+      padding:0;
+      vertical-align:top;
+      background:#fbfcff;
+      height:76px;
+    }
+
+    .dropzone{
+      min-height:76px;
+      width:100%;
+      padding:6px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-start;
+      position:relative;
+    }
+
+    .dropzone.empty::after{
+      content:"sleep hier";
+      position:absolute;
+      right:8px;
+      bottom:6px;
+      font-size:.72rem;
+      color:#a1aac5;
+      font-style:italic;
+      pointer-events:none;
+    }
+
+    .pool-wrap{
+      padding:14px;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .pool-title{
+      color:#fff;
+      font-weight:900;
+      font-size:1rem;
+      padding:0 2px;
+    }
+
+    .pool{
+      flex:1;
+      min-height:0;
+      overflow:auto;
+      background:rgba(255,255,255,.04);
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:18px;
+      padding:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-content:flex-start;
+    }
+
+    .tile{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-align:left;
+      padding:10px 12px;
+      min-height:46px;
+      background:#ffffff;
+      color:var(--text);
+      border:2px solid #e2e8f6;
+      border-radius:14px;
+      box-shadow:0 6px 14px rgba(0,0,0,.10);
+      cursor:grab;
+      font-size:.92rem;
+      line-height:1.25;
+      font-weight:700;
+      max-width:100%;
+    }
+
+    .tile:active{ cursor:grabbing; }
+    .tile.good{ border-color:#bdeecf; background:#f5fff9; }
+    .tile.bad{ border-color:#ffc0ca; background:#fff6f8; }
+
+    .legend{
+      display:grid;
+      gap:8px;
+      color:#eef2ff;
+      font-size:.92rem;
+      background:rgba(255,255,255,.05);
+      border-radius:16px;
+      padding:10px;
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    .legend strong{
+      font-size:.95rem;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      padding:12px 18px;
+      background:rgba(9, 12, 31, .55);
+      border-top:1px solid rgba(255,255,255,.10);
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:0;
+      border-radius:16px;
+      min-width:150px;
+      padding:13px 16px;
+      font-size:1rem;
+      font-weight:950;
+      cursor:pointer;
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+    }
+
+    .btn-check{
+      background:linear-gradient(90deg,var(--yellow),var(--green));
+      color:#162033;
+    }
+
+    .btn-reset{
+      background:#eef3ff;
+      color:#26304d;
+    }
+
+    .message{
+      font-weight:900;
+      color:#fff;
+      text-align:center;
+    }
+
+    .end-screen{
+      position:absolute;
+      inset:0;
+      display:none;
+      padding:24px;
+      overflow:auto;
+      background:linear-gradient(135deg, #eef4ff, #f9fbff);
+      color:var(--text);
+      z-index:20;
+    }
+    .end-screen.show{ display:block; }
+
+    .end-inner{
+      max-width:760px;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    .score{
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:16px;
+      background:#eef3ff;
+      border:1px solid #d8e2ff;
+      color:#25304e;
+      font-size:1rem;
+      font-weight:1000;
+      margin-bottom:12px;
+    }
+
+    .end-inner h2{
+      margin:0 0 8px;
+      font-size:2rem;
+      letter-spacing:-1px;
+    }
+
+    .end-inner p{
+      color:#33405f;
+      line-height:1.45;
+      margin:0 0 16px;
+    }
+
+    .summary{
+      background:#fff;
+      border:1px solid #dfe7ff;
+      border-radius:20px;
+      padding:16px;
+      text-align:left;
+      box-shadow:0 12px 28px rgba(0,0,0,.08);
+    }
+
+    .summary ul{
+      margin:10px 0 0 18px;
+      padding:0;
+      color:#25304e;
+      line-height:1.5;
+    }
+
+    @media (max-width:900px){
+      .app{
+        height:auto;
+        min-height:600px;
+      }
+      .main{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">Planning<span>Puzzel</span></div>
+      <div class="pill">Sleep de cellen naar de juiste plek</div>
+    </header>
+
+    <section class="main">
+      <section class="panel">
+        <div class="table-wrap">
+          <div class="table-title">Zet de planningstabel goed in elkaar</div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:16%">Week</th>
+                <th style="width:41%">Focus</th>
+                <th style="width:43%">Wat maak je zichtbaar?</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <div class="pool-wrap">
+          <div class="pool-title">Losse cellen</div>
+          <div class="pool" id="pool"></div>
+
+          <div class="legend">
+            <strong>Opdracht</strong>
+            <div>Zet alle losse cellen op de juiste plaats in de tabel.</div>
+            <div>Je kunt daarna op <strong>Controleer</strong> klikken.</div>
+            <div>Groen = goed geplaatst</div>
+            <div>Rood = nog niet goed</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <button class="btn btn-check" id="checkBtn" type="button">Controleer</button>
+      <button class="btn btn-reset" id="resetBtn" type="button">Opnieuw</button>
+      <div class="message" id="message">Plaats eerst alle 12 cellen.</div>
+    </footer>
+
+    <section class="end-screen" id="endScreen">
+      <div class="end-inner">
+        <div class="score" id="scoreText">Score</div>
+        <h2>Klaar!</h2>
+        <p>Hieronder zie je nog een keer de juiste planning.</p>
+
+        <div class="summary">
+          <table>
+            <thead>
+              <tr>
+                <th>Week</th>
+                <th>Focus</th>
+                <th>Wat maak je zichtbaar?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1-2</td><td>Veilig werken en hardware</td><td>Foto’s, checklist, opdracht</td></tr>
+              <tr><td>3-4</td><td>Besturingssysteem en software</td><td>Screenshots, korte uitleg</td></tr>
+              <tr><td>5-6</td><td>Testen en afronden</td><td>Testlijst, compleet bewijs</td></tr>
+              <tr><td>7-8</td><td>Beroepsproject Sigrid Styling</td><td>Werkbon, eindproduct, oplevering</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const rows = [
+      ["1-2", "Veilig werken en hardware", "Foto’s, checklist, opdracht"],
+      ["3-4", "Besturingssysteem en software", "Screenshots, korte uitleg"],
+      ["5-6", "Testen en afronden", "Testlijst, compleet bewijs"],
+      ["7-8", "Beroepsproject Sigrid Styling", "Werkbon, eindproduct, oplevering"]
+    ];
+
+    const tableBody = document.getElementById("tableBody");
+    const pool = document.getElementById("pool");
+    const checkBtn = document.getElementById("checkBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const message = document.getElementById("message");
+    const endScreen = document.getElementById("endScreen");
+    const scoreText = document.getElementById("scoreText");
+
+    let dragged = null;
+
+    function buildTable(){
+      tableBody.innerHTML = "";
+      rows.forEach((row, r) => {
+        const tr = document.createElement("tr");
+        row.forEach((cell, c) => {
+          const td = document.createElement("td");
+          const zone = document.createElement("div");
+          zone.className = "dropzone empty";
+          zone.dataset.row = r;
+          zone.dataset.col = c;
+          enableDrop(zone);
+          td.appendChild(zone);
+          tr.appendChild(td);
+        });
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function shuffledCells(){
+      const cells = [];
+      rows.forEach((row, r) => {
+        row.forEach((text, c) => {
+          cells.push({text, row:r, col:c});
+        });
+      });
+      for(let i = cells.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [cells[i], cells[j]] = [cells[j], cells[i]];
+      }
+      return cells;
+    }
+
+    function buildPool(){
+      pool.innerHTML = "";
+      shuffledCells().forEach(item => {
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tile.draggable = true;
+        tile.textContent = item.text;
+        tile.dataset.row = item.row;
+        tile.dataset.col = item.col;
+        tile.addEventListener("dragstart", () => dragged = tile);
+        tile.addEventListener("dragend", () => dragged = null);
+        pool.appendChild(tile);
+      });
+    }
+
+    function enableDrop(zone){
+      zone.addEventListener("dragover", e => e.preventDefault());
+      zone.addEventListener("drop", e => {
+        e.preventDefault();
+        if(!dragged) return;
+
+        if(zone.firstElementChild){
+          pool.appendChild(zone.firstElementChild);
+        }
+        zone.innerHTML = "";
+        zone.classList.remove("empty");
+        zone.appendChild(dragged);
+        clearMarks();
+        message.textContent = "Goed bezig. Klik op Controleer als alles staat.";
+      });
+    }
+
+    pool.addEventListener("dragover", e => e.preventDefault());
+    pool.addEventListener("drop", e => {
+      e.preventDefault();
+      if(!dragged) return;
+      pool.appendChild(dragged);
+      clearMarks();
+      refreshEmptyStates();
+    });
+
+    function refreshEmptyStates(){
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        zone.classList.toggle("empty", !zone.firstElementChild);
+      });
+    }
+
+    function clearMarks(){
+      document.querySelectorAll(".tile").forEach(tile => {
+        tile.classList.remove("good", "bad");
+      });
+      refreshEmptyStates();
+    }
+
+    function allPlaced(){
+      return [...document.querySelectorAll(".dropzone")].every(z => z.firstElementChild);
+    }
+
+    function checkAnswers(){
+      clearMarks();
+
+      if(!allPlaced()){
+        message.textContent = "Nog niet alles staat in de tabel. Plaats eerst alle 12 cellen.";
+        return;
+      }
+
+      let correct = 0;
+      document.querySelectorAll(".dropzone").forEach(zone => {
+        const tile = zone.firstElementChild;
+        const good = tile.dataset.row === zone.dataset.row && tile.dataset.col === zone.dataset.col;
+        tile.classList.add(good ? "good" : "bad");
+        if(good) correct++;
+      });
+
+      message.textContent = `Je hebt ${correct} van de 12 cellen goed geplaatst.`;
+
+      if(correct === 12){
+        scoreText.textContent = "Score: 12 van de 12 goed";
+        endScreen.classList.add("show");
+      }
+    }
+
+    function resetGame(){
+      endScreen.classList.remove("show");
+      buildTable();
+      buildPool();
+      message.textContent = "Plaats eerst alle 12 cellen.";
+    }
+
+    checkBtn.addEventListener("click", checkAnswers);
+    resetBtn.addEventListener("click", resetGame);
+
+    resetGame();
+  </script>
+</body>
+</html>
