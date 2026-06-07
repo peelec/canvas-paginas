@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tekstrol</title>
+  <title>Tekstrol Compact</title>
   <style>
     * {
       box-sizing: border-box;
@@ -18,19 +18,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      padding: 12px;
     }
 
     .pagina {
-      width: min(1050px, 96vw);
-      min-height: 560px;
+      width: min(1000px, 96vw);
+      height: 500px;
+      max-height: 500px;
       display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 24px;
-      padding: 24px;
-      border-radius: 24px;
+      grid-template-columns: 210px 1fr;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 22px;
       background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(10px);
+      overflow: hidden;
     }
 
     .knoppen {
@@ -38,23 +42,26 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 16px;
-      padding: 20px;
+      gap: 11px;
+      padding: 14px;
       border-radius: 18px;
       background: rgba(255, 255, 255, 0.08);
+      min-height: 0;
+      overflow: hidden;
     }
 
     button {
       width: 100%;
-      padding: 16px;
+      padding: 12px 10px;
       border: none;
-      border-radius: 14px;
-      font-size: 17px;
+      border-radius: 13px;
+      font-size: 14px;
+      line-height: 1.15;
       font-weight: bold;
       cursor: pointer;
       color: white;
       background: linear-gradient(135deg, #ff8a00, #ff3d77);
-      box-shadow: 0 8px 0 #8f1d42;
+      box-shadow: 0 6px 0 #8f1d42;
       transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
     }
 
@@ -64,8 +71,8 @@
     }
 
     button:active {
-      transform: translateY(5px);
-      box-shadow: 0 3px 0 #8f1d42;
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #8f1d42;
     }
 
     .scherm-container {
@@ -73,21 +80,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 18px;
       border-radius: 22px;
       background: #080a12;
-      border: 8px solid #f4c542;
+      border: 6px solid #f4c542;
       box-shadow:
-        inset 0 0 35px rgba(255, 255, 255, 0.08),
-        0 0 30px rgba(244, 197, 66, 0.35);
+        inset 0 0 28px rgba(255, 255, 255, 0.08),
+        0 0 24px rgba(244, 197, 66, 0.35);
       overflow: hidden;
       position: relative;
+      min-height: 0;
     }
 
     .scherm-container::before {
       content: "";
       position: absolute;
-      inset: 12px;
+      inset: 10px;
       border-radius: 14px;
       border: 2px dashed rgba(255, 255, 255, 0.14);
       pointer-events: none;
@@ -95,9 +103,10 @@
 
     .scherm {
       width: 100%;
-      max-width: 640px;
-      min-height: 230px;
-      padding: 28px;
+      max-width: 650px;
+      height: 300px;
+      max-height: 300px;
+      padding: 22px;
       border-radius: 18px;
       background: linear-gradient(180deg, #151827, #0e101a);
       display: flex;
@@ -109,12 +118,15 @@
     }
 
     .tekst {
-      font-size: clamp(12px, 3vw, 16px);
+      font-size: clamp(13px, 2.1vw, 20px);
       font-weight: 900;
       line-height: 1.25;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
       white-space: pre-wrap;
+      max-height: 100%;
+      overflow: auto;
+      padding: 4px;
     }
 
     .rollen {
@@ -123,7 +135,7 @@
 
     @keyframes tekstrol {
       0% {
-        transform: translateY(-95px);
+        transform: translateY(-85px);
         opacity: 0.2;
         filter: blur(3px);
       }
@@ -133,7 +145,7 @@
         filter: blur(0);
       }
       100% {
-        transform: translateY(95px);
+        transform: translateY(85px);
         opacity: 0.2;
         filter: blur(3px);
       }
@@ -152,30 +164,66 @@
     }
 
     @media (max-width: 720px) {
+      body {
+        overflow: auto;
+      }
+
       .pagina {
-        grid-template-columns: 150px 1fr;
-        gap: 14px;
-        padding: 14px;
+        width: 96vw;
+        height: 500px;
+        grid-template-columns: 160px 1fr;
+        gap: 12px;
+        padding: 12px;
       }
 
       .knoppen {
-        padding: 12px;
-        gap: 12px;
+        padding: 10px;
+        gap: 9px;
       }
 
       button {
-        font-size: 14px;
-        padding: 13px 8px;
+        font-size: 12px;
+        padding: 10px 7px;
       }
 
       .scherm-container {
-        padding: 14px;
+        padding: 12px;
         border-width: 5px;
       }
 
       .scherm {
-        min-height: 260px;
-        padding: 18px;
+        height: 300px;
+        padding: 16px;
+      }
+
+      .tekst {
+        font-size: clamp(12px, 2.8vw, 16px);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .pagina {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        height: 500px;
+      }
+
+      .knoppen {
+        flex-direction: row;
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+
+      button {
+        min-width: 130px;
+      }
+
+      .scherm-container {
+        grid-column: 1;
+      }
+
+      .scherm {
+        height: 260px;
       }
     }
   </style>
