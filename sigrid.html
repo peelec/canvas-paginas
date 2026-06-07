@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sigrid Styling - Space Crawl</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#111827;font-family:Arial,Helvetica,sans-serif;color:white;padding:16px;overflow:hidden}
+.scene{width:min(1000px,96vw);height:500px;max-height:500px;position:relative;overflow:hidden;background:radial-gradient(circle at 20% 20%,rgba(86,199,255,.12),transparent 25%),radial-gradient(circle at 80% 10%,rgba(255,216,74,.08),transparent 22%),linear-gradient(180deg,#01020a,#050716 65%,#01020a);border:5px solid #000;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.55);perspective:420px;isolation:isolate}
+.stars,.stars:before,.stars:after{position:absolute;inset:0;content:"";background-repeat:repeat;pointer-events:none}
+.stars{background-image:radial-gradient(circle,rgba(255,255,255,.9) 0 1px,transparent 1.5px);background-size:72px 72px;opacity:.75;animation:starsMove 14s linear infinite}
+.stars:before{background-image:radial-gradient(circle,rgba(255,255,255,.85) 0 1px,transparent 1.5px);background-size:113px 113px;background-position:20px 40px;opacity:.55;animation:starsMove 20s linear infinite}
+.stars:after{background-image:radial-gradient(circle,rgba(86,199,255,.9) 0 1px,transparent 1.5px);background-size:151px 151px;background-position:50px 12px;opacity:.45;animation:starsMove 26s linear infinite}
+.fade-top{position:absolute;z-index:6;left:0;right:0;top:0;height:170px;background:linear-gradient(180deg,#01020a 0%,rgba(1,2,10,.88) 36%,transparent 100%);pointer-events:none}
+.fade-bottom{position:absolute;z-index:6;left:0;right:0;bottom:0;height:80px;background:linear-gradient(0deg,#01020a 0%,transparent 100%);pointer-events:none}
+.intro{position:absolute;inset:0;display:grid;place-items:center;z-index:8;text-align:center;padding:30px;color:#56c7ff;font-weight:700;font-size:clamp(1.3rem,3vw,2.4rem);letter-spacing:.5px;animation:introFade 5s ease forwards;text-shadow:0 0 18px rgba(86,199,255,.75)}
+.crawl-wrap{position:absolute;z-index:4;left:50%;bottom:-370px;width:min(720px,82%);height:850px;transform:translateX(-50%) rotateX(58deg);transform-origin:50% 100%;overflow:visible}
+.crawl{position:absolute;left:0;right:0;bottom:-30px;color:#ffd84a;text-align:justify;font-weight:900;line-height:1.45;letter-spacing:.8px;font-size:clamp(1.35rem,2.8vw,2.4rem);text-shadow:0 0 12px rgba(255,216,74,.55);animation:crawl 38s linear 3.8s forwards}
+.crawl h1{text-align:center;margin:0 0 18px;font-size:clamp(2rem,5vw,4rem);line-height:1;text-transform:uppercase;letter-spacing:2px}
+.crawl h2{text-align:center;margin:0 0 28px;font-size:clamp(1.3rem,3vw,2.1rem);text-transform:uppercase;letter-spacing:1px}
+.crawl p{margin:0 0 24px}
+.controls{position:absolute;right:14px;bottom:14px;z-index:10;display:flex;gap:10px}
+button{border:0;border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18);font-weight:900;cursor:pointer;backdrop-filter:blur(8px)}
+button:hover{background:rgba(255,255,255,.2)}
+.hint{position:absolute;left:14px;bottom:14px;z-index:10;color:rgba(255,255,255,.7);font-size:.82rem;font-weight:700;background:rgba(0,0,0,.35);padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
+@keyframes crawl{0%{transform:translateY(0);opacity:1}82%{opacity:1}100%{transform:translateY(-1120px);opacity:0}}
+@keyframes introFade{0%{opacity:0}15%{opacity:1}70%{opacity:1}100%{opacity:0;visibility:hidden}}
+@keyframes starsMove{from{transform:translateY(0)}to{transform:translateY(72px)}}
+@media(max-width:650px){.scene{height:500px}.crawl-wrap{width:88%;bottom:-390px;transform:translateX(-50%) rotateX(62deg)}.hint{display:none}}
+</style>
+</head>
+<body>
+<main class="scene" id="scene">
+<div class="stars"></div>
+<div class="fade-top"></div>
+<div class="fade-bottom"></div>
+<div class="intro">In een klaslokaal niet zo heel ver hier vandaan...</div>
+<section class="crawl-wrap" aria-label="Introductietekst Sigrid Styling">
+<article class="crawl" id="crawl">
+<h1>Sigrid Styling</h1>
+<h2>Beroepsproject ICT Support</h2>
+<p>Je gaat in deze cursus aan de slag voor Sigrid Styling, een start-up in de stylingbranche.</p>
+<p>Zij hebben twee werkplekken nodig en willen ook graag met een tablet kunnen werken.</p>
+<p>Je gaat de werkplekken inrichten volgens de wensen van de medewerkers.</p>
+<p>Ook installeer je zowel Nederlandse als Engelse software.</p>
+<p>Aan het einde laat je zien dat de werkplekken netjes, veilig en gebruiksklaar zijn opgeleverd.</p>
+</article>
+</section>
+<div class="hint">Sciencefiction tekstcrawl</div>
+<div class="controls">
+<button type="button" id="restart">Opnieuw</button>
+<button type="button" id="pause">Pauze</button>
+</div>
+</main>
+<script>
+const crawl=document.querySelector("#crawl");
+const intro=document.querySelector(".intro");
+const restart=document.querySelector("#restart");
+const pause=document.querySelector("#pause");
+let paused=false;
+restart.addEventListener("click",()=>{
+  crawl.style.animation="none";
+  intro.style.animation="none";
+  void crawl.offsetWidth;
+  void intro.offsetWidth;
+  crawl.style.animation="crawl 38s linear 3.8s forwards";
+  intro.style.animation="introFade 5s ease forwards";
+  paused=false;
+  pause.textContent="Pauze";
+  crawl.style.animationPlayState="running";
+  intro.style.animationPlayState="running";
+});
+pause.addEventListener("click",()=>{
+  paused=!paused;
+  crawl.style.animationPlayState=paused?"paused":"running";
+  intro.style.animationPlayState=paused?"paused":"running";
+  pause.textContent=paused?"Verder":"Pauze";
+});
+</script>
+</body>
+</html>
