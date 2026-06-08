@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning maken in Excel</title>
+
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --purple: #7c3aed;
+            --accent: #f97316;
+            --green: #22c55e;
+            --border: #e5e7eb;
+            --blue-light: #dbeafe;
+            --shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top left, #dbeafe 0, transparent 34%),
+                radial-gradient(circle at bottom right, #ffedd5 0, transparent 34%),
+                var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 28px 18px 50px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: white;
+            border-radius: 28px;
+            padding: 36px 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "📅";
+            position: absolute;
+            right: 28px;
+            top: 18px;
+            font-size: 96px;
+            opacity: 0.18;
+            transform: rotate(8deg);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            color: white;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: clamp(30px, 5vw, 48px);
+            line-height: 1.1;
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin: 22px 0;
+        }
+
+        .quick-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .quick-card .icon {
+            font-size: 30px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .quick-card strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .quick-card span {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .intro-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin: 22px 0;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .intro-card h2 {
+            margin-top: 0;
+            font-size: 26px;
+        }
+
+        .highlight {
+            background: #fff7ed;
+            border-left: 6px solid var(--accent);
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 18px;
+        }
+
+        .highlight strong {
+            color: #c2410c;
+        }
+
+        .accordion {
+            display: grid;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        details {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        summary {
+            cursor: pointer;
+            padding: 20px 22px;
+            font-weight: 800;
+            font-size: 18px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #ffffff;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: "+";
+            background: var(--blue-light);
+            color: var(--primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        details[open] summary::after {
+            content: "−";
+            background: var(--primary);
+            color: white;
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .details-content {
+            padding: 20px 22px 24px;
+        }
+
+        .details-content p:first-child {
+            margin-top: 0;
+        }
+
+        .details-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        ul, ol {
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .steps {
+            counter-reset: step;
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .steps li {
+            counter-increment: step;
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 12px;
+            align-items: start;
+            margin-bottom: 14px;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            background: var(--primary);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .color-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .tag {
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 14px;
+            background: #f3f4f6;
+        }
+
+        .tag.green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .tag.orange {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .tag.red {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .tag.blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 11px 13px;
+            margin-bottom: 9px;
+        }
+
+        .checklist li::before {
+            content: "✓";
+            color: var(--green);
+            font-weight: 900;
+            margin-right: 8px;
+        }
+
+        .mini-note {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 16px;
+            color: #1e3a8a;
+        }
+
+        .final-box {
+            margin-top: 24px;
+            background: linear-gradient(135deg, #111827, #374151);
+            color: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .final-box h2 {
+            margin-top: 0;
+        }
+
+        .final-box p {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 850px) {
+            .quick-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 520px) {
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 28px 22px;
+            }
+
+            summary {
+                font-size: 16px;
+                padding: 18px;
+            }
+
+            .details-content {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+
+        <section class="hero">
+            <span class="badge">Excel-opdracht · 6 weken plannen</span>
+            <h1>Maak jouw planning in Excel</h1>
+            <p>
+                Jij gaat overzicht maken voor de komende 6 weken. Je plant wanneer je aan welke opdracht werkt,
+                hoeveel tijd je denkt nodig te hebben en wanneer iets klaar moet zijn.
+            </p>
+        </section>
+
+        <section class="quick-grid" aria-label="Korte samenvatting">
+            <div class="quick-card">
+                <span class="icon">⏱️</span>
+                <strong>6 weken</strong>
+                <span>Je verdeelt je werk over de hele periode.</span>
+            </div>
+
+            <div class="quick-card">
+                <span class="icon">📊</span>
+                <strong>Excel</strong>
+                <span>Je maakt een duidelijke planning in een tabel.</span>
+            </div>
+
+            <div class="quick-card">
+                <span class="icon">🧠</span>
+                <strong>Leren plannen</strong>
+                <span>Je planning hoeft niet meteen perfect te zijn.</span>
+            </div>
+
+            <div class="quick-card">
+                <span class="icon">✅</span>
+                <strong>Bijstellen mag</strong>
+                <span>Als iets langer duurt, pas je je planning aan.</span>
+            </div>
+        </section>
+
+        <section class="intro-card">
+            <h2>Waar gaat deze opdracht over?</h2>
+
+            <p>
+                Je krijgt <strong>6 weken de tijd</strong> om verschillende opdrachten uit te voeren.
+                De opdrachten vind je in het <strong>Excel-bestand op de volgende pagina</strong>.
+            </p>
+
+            <p>
+                In jouw planning laat je zien <strong>wanneer je aan welke opdracht gaat werken</strong>.
+                Zo krijg je overzicht over je tijd, je opdrachten en je deadlines.
+            </p>
+
+            <div class="highlight">
+                <strong>Belangrijk:</strong>
+                je planning hoeft nog niet perfect te zijn. Je weet vooraf waarschijnlijk nog niet precies
+                hoe lang elke opdracht duurt. Dat is geen schande. We zitten tenslotte op school om te leren.
+            </div>
+        </section>
+
+        <section class="accordion">
+
+            <details open>
+                <summary>🚀 Wat ga je doen?</summary>
+                <div class="details-content">
+                    <p>
+                        Je maakt in Excel een planning voor de komende 6 weken. In die planning zet je de opdrachten
+                        die je moet maken. Daarna verdeel je deze opdrachten over de weken en momenten waarop jij kunt werken.
+                    </p>
+
+                    <p>
+                        Het doel is dat jij overzicht krijgt. Je leert inschatten hoeveel tijd iets kost,
+                        prioriteiten stellen en je planning aanpassen als dat nodig is.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary>📅 Houd rekening met je lesrooster</summary>
+                <div class="details-content">
+                    <p>
+                        Niet iedereen heeft evenveel tijd om op school aan de opdrachten te werken.
+                        Kijk daarom goed naar jouw eigen rooster.
+                    </p>
+
+                    <ul>
+                        <li><strong>Veel lessen?</strong> Dan kun je meer werk tijdens de les plannen.</li>
+                        <li><strong>Weinig lessen?</strong> Dan moet je goed kiezen wat je wanneer doet.</li>
+                        <li><strong>Geen lessen?</strong> Dan moet je zelf tijd buiten de les inplannen.</li>
+                    </ul>
+
+                    <p>
+                        Jouw planning kan dus anders zijn dan die van een klasgenoot. Dat is logisch,
+                        want niet iedereen heeft dezelfde beschikbare tijd.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary>🛠️ Zo maak je jouw planning in Excel</summary>
+                <div class="details-content">
+                    <ol class="steps">
+                        <li>Open het Excel-bestand met de opdrachten.</li>
+                        <li>Bekijk welke opdrachten je in de komende 6 weken moet uitvoeren.</li>
+                        <li>Maak in Excel een overzichtelijke tabel.</li>
+                        <li>Zet week 1 tot en met week 6 in je planning.</li>
+                        <li>Verdeel de opdrachten over de weken.</li>
+                        <li>Schrijf erbij wanneer je aan de opdracht gaat werken.</li>
+                        <li>Schat hoeveel tijd je denkt nodig te hebben.</li>
+                        <li>Controleer of je planning haalbaar is.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <details>
+                <summary>📋 Deze kolommen gebruik je</summary>
+                <div class="details-content">
+                    <div class="mini-note">
+                        <strong>Let op:</strong> de kolommen die je in Excel gebruikt, worden tijdens de les uitgelegd.
+                        Zorg dat je goed meedoet, zodat je weet hoe je jouw planning moet invullen.
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>🎨 Maak je planning duidelijk met kleuren</summary>
+                <div class="details-content">
+                    <p>
+                        Gebruik kleuren in Excel om snel te zien hoe je ervoor staat.
+                        Je mag zelf kleuren kiezen, maar dit is een handig voorbeeld:
+                    </p>
+
+                    <div class="color-tags">
+                        <span class="tag green">Groen = klaar</span>
+                        <span class="tag orange">Oranje = mee bezig</span>
+                        <span class="tag red">Rood = loopt achter</span>
+                        <span class="tag blue">Blauw = deadline</span>
+                    </div>
+
+                    <p style="margin-top: 18px;">
+                        Zorg ervoor dat iemand anders jouw planning ook kan begrijpen.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary>💡 Tips voor een slimme planning</summary>
+                <div class="details-content">
+                    <ul class="checklist">
+                        <li>Plan niet alles in de laatste week.</li>
+                        <li>Verdeel het werk over de 6 weken.</li>
+                        <li>Houd rekening met weken waarin je weinig of geen les hebt.</li>
+                        <li>Plan grote of moeilijke opdrachten op tijd in.</li>
+                        <li>Laat ruimte over voor opdrachten die langer duren dan verwacht.</li>
+                        <li>Gebruik kleuren om overzicht te houden.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🔄 Je planning mag veranderen</summary>
+                <div class="details-content">
+                    <p>
+                        Tijdens de 6 weken mag je jouw planning aanpassen. Dat hoort bij leren plannen.
+                    </p>
+
+                    <p>
+                        Als een opdracht langer duurt dan je dacht, pas je je planning aan.
+                        Als je sneller klaar bent, kun je alvast verder met een volgende opdracht.
+                    </p>
+
+                    <p>
+                        Een goede planning is niet een planning die nooit verandert.
+                        Een goede planning helpt jou om overzicht te houden en keuzes te maken.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary>📤 Wat lever je in?</summary>
+                <div class="details-content">
+                    <p>
+                        Je levert een Excel-planning in voor de komende 6 weken.
+                    </p>
+
+                    <p>
+                        In jouw planning staan minimaal:
+                    </p>
+
+                    <ul class="checklist">
+                        <li>Alle opdrachten uit het Excel-bestand.</li>
+                        <li>Week 1 tot en met week 6.</li>
+                        <li>Wanneer je aan welke opdracht werkt.</li>
+                        <li>Of je dit tijdens de les of in eigen tijd doet.</li>
+                        <li>Hoeveel tijd je denkt nodig te hebben.</li>
+                        <li>De deadlines.</li>
+                        <li>Een kolom waarin je aangeeft of iets klaar is.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🗣️ Reflectievragen</summary>
+                <div class="details-content">
+                    <p>
+                        Beantwoord onder je planning deze vragen:
+                    </p>
+
+                    <ol>
+                        <li>Hoeveel tijd heb jij volgens je rooster om aan de opdrachten te werken?</li>
+                        <li>Welke weken worden voor jou druk?</li>
+                        <li>Welke opdracht lijkt jou het meeste tijd te kosten?</li>
+                        <li>Wat doe je als een opdracht langer duurt dan je had gedacht?</li>
+                        <li>Wat heb je geleerd van het maken van deze planning?</li>
+                    </ol>
+                </div>
+            </details>
+
+        </section>
+
+        <section class="final-box">
+            <h2>Onthoud dit goed</h2>
+            <p>
+                Je hoeft nog geen perfecte planning te maken. Het belangrijkste is dat je begint,
+                nadenkt over je tijd en leert om je planning bij te stellen. Dat is precies waarom je deze opdracht maakt.
+            </p>
+        </section>
+
+    </main>
+</body>
+</html>
