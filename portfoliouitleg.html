@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planning maken in Excel</title>
+    <title>Portfolio maken in Canvas</title>
 
     <style>
         :root {
@@ -12,7 +12,6 @@
             --text: #1f2937;
             --muted: #6b7280;
             --primary: #2563eb;
-            --primary-dark: #1d4ed8;
             --purple: #7c3aed;
             --accent: #f97316;
             --green: #22c55e;
@@ -31,7 +30,7 @@
             font-family: Arial, Helvetica, sans-serif;
             background:
                 radial-gradient(circle at top left, #dbeafe 0, transparent 34%),
-                radial-gradient(circle at bottom right, #ffedd5 0, transparent 34%),
+                radial-gradient(circle at bottom right, #ede9fe 0, transparent 34%),
                 var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -54,7 +53,7 @@
         }
 
         .hero::after {
-            content: "📅";
+            content: "🎒";
             position: absolute;
             right: 28px;
             top: 18px;
@@ -208,10 +207,6 @@
             margin-top: 0;
         }
 
-        .details-content p:last-child {
-            margin-bottom: 0;
-        }
-
         ul, ol {
             padding-left: 24px;
         }
@@ -249,41 +244,6 @@
             font-weight: 800;
         }
 
-        .color-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .tag {
-            padding: 8px 12px;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 14px;
-            background: #f3f4f6;
-        }
-
-        .tag.green {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .tag.orange {
-            background: #ffedd5;
-            color: #9a3412;
-        }
-
-        .tag.red {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .tag.blue {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
         .checklist {
             list-style: none;
             padding-left: 0;
@@ -310,6 +270,24 @@
             border-radius: 14px;
             padding: 16px;
             color: #1e3a8a;
+            margin-top: 14px;
+        }
+
+        .warning-note {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 14px;
+            padding: 16px;
+            color: #9a3412;
+            margin-top: 14px;
+        }
+
+        .example-box {
+            background: #f9fafb;
+            border: 1px dashed #cbd5e1;
+            border-radius: 14px;
+            padding: 16px;
+            margin-top: 14px;
         }
 
         .final-box {
@@ -360,37 +338,37 @@
     <main class="page">
 
         <section class="hero">
-            <span class="badge">Excel-opdracht · 6 weken plannen</span>
-            <h1>Maak jouw planning in Excel</h1>
+            <span class="badge">Canvas-opdracht · Portfolio maken</span>
+            <h1>Maak jouw portfolio in Canvas</h1>
             <p>
-                Jij gaat overzicht maken voor de komende 6 weken. Je plant wanneer je aan welke opdracht werkt,
-                hoeveel tijd je denkt nodig te hebben en wanneer iets klaar moet zijn.
+                In je portfolio laat je zien waar je aan hebt gewerkt, wat je hebt geleerd
+                en waar je trots op bent. Je portfolio is jouw bewijsmap in Canvas.
             </p>
         </section>
 
         <section class="quick-grid" aria-label="Korte samenvatting">
             <div class="quick-card">
-                <span class="icon">⏱️</span>
-                <strong>6 weken</strong>
-                <span>Je verdeelt je werk over de hele periode.</span>
-            </div>
-
-            <div class="quick-card">
-                <span class="icon">📊</span>
-                <strong>Excel</strong>
-                <span>Je maakt een duidelijke planning in een tabel.</span>
+                <span class="icon">📁</span>
+                <strong>Verzamel bewijs</strong>
+                <span>Voeg opdrachten, foto’s, bestanden of links toe.</span>
             </div>
 
             <div class="quick-card">
                 <span class="icon">🧠</span>
-                <strong>Leren plannen</strong>
-                <span>Je planning hoeft niet meteen perfect te zijn.</span>
+                <strong>Laat zien wat je leert</strong>
+                <span>Schrijf kort wat je hebt gedaan en geleerd.</span>
+            </div>
+
+            <div class="quick-card">
+                <span class="icon">🎯</span>
+                <strong>Maak keuzes</strong>
+                <span>Kies werk dat goed laat zien wat jij kunt.</span>
             </div>
 
             <div class="quick-card">
                 <span class="icon">✅</span>
-                <strong>Bijstellen mag</strong>
-                <span>Als iets langer duurt, pas je je planning aan.</span>
+                <strong>Houd het netjes</strong>
+                <span>Zorg dat je portfolio duidelijk en compleet is.</span>
             </div>
         </section>
 
@@ -398,136 +376,166 @@
             <h2>Waar gaat deze opdracht over?</h2>
 
             <p>
-                Je krijgt <strong>6 weken de tijd</strong> om verschillende opdrachten uit te voeren.
-                De opdrachten vind je in het <strong>Excel-bestand op de volgende pagina</strong>.
+                Je gaat een <strong>portfolio maken in Canvas</strong>. In dit portfolio verzamel je werk
+                waarmee je laat zien wat je hebt gedaan, geleerd en ontwikkeld.
             </p>
 
             <p>
-                In jouw planning laat je zien <strong>wanneer je aan welke opdracht gaat werken</strong>.
-                Zo krijg je overzicht over je tijd, je opdrachten en je deadlines.
+                Een portfolio is meer dan alleen opdrachten inleveren. Je legt ook kort uit
+                <strong>waarom je iets hebt toegevoegd</strong> en <strong>wat het over jou laat zien</strong>.
             </p>
 
             <div class="highlight">
                 <strong>Belangrijk:</strong>
-                je planning hoeft nog niet perfect te zijn. Je weet vooraf waarschijnlijk nog niet precies
-                hoe lang elke opdracht duurt. Dat is geen schande. We zitten tenslotte op school om te leren.
+                je portfolio hoeft niet in één keer perfect te zijn. Je bouwt het stap voor stap op.
+                Tijdens de opleiding leer je steeds beter wat goede bewijzen zijn en hoe je jezelf presenteert.
             </div>
         </section>
 
         <section class="accordion">
 
             <details open>
-                <summary>🚀 Wat ga je doen?</summary>
+                <summary>🚀 Wat ga je maken?</summary>
                 <div class="details-content">
                     <p>
-                        Je maakt in Excel een planning voor de komende 6 weken. In die planning zet je de opdrachten
-                        die je moet maken. Daarna verdeel je deze opdrachten over de weken en momenten waarop jij kunt werken.
+                        Je maakt in Canvas een portfolio waarin je jouw werk verzamelt.
+                        Denk aan opdrachten, foto’s, documenten, reflecties, feedback of andere bewijzen.
                     </p>
 
                     <p>
-                        Het doel is dat jij overzicht krijgt. Je leert inschatten hoeveel tijd iets kost,
-                        prioriteiten stellen en je planning aanpassen als dat nodig is.
+                        Het doel is dat iemand anders kan zien wat jij hebt gedaan,
+                        wat je hebt geleerd en welke ontwikkeling je doormaakt.
                     </p>
                 </div>
             </details>
 
             <details>
-                <summary>📅 Houd rekening met je lesrooster</summary>
+                <summary>📌 Wat is een portfolio?</summary>
                 <div class="details-content">
                     <p>
-                        Niet iedereen heeft evenveel tijd om op school aan de opdrachten te werken.
-                        Kijk daarom goed naar jouw eigen rooster.
+                        Een portfolio is een verzameling van jouw werk. Het laat zien wie jij bent als student
+                        en hoe jij je ontwikkelt.
                     </p>
-
-                    <ul>
-                        <li><strong>Veel lessen?</strong> Dan kun je meer werk tijdens de les plannen.</li>
-                        <li><strong>Weinig lessen?</strong> Dan moet je goed kiezen wat je wanneer doet.</li>
-                        <li><strong>Geen lessen?</strong> Dan moet je zelf tijd buiten de les inplannen.</li>
-                    </ul>
 
                     <p>
-                        Jouw planning kan dus anders zijn dan die van een klasgenoot. Dat is logisch,
-                        want niet iedereen heeft dezelfde beschikbare tijd.
+                        Je gebruikt je portfolio om bewijs te verzamelen. Dat bewijs kan later helpen bij gesprekken,
+                        beoordelingen of het terugkijken op jouw leerproces.
                     </p>
+
+                    <div class="example-box">
+                        <strong>Voorbeelden van bewijs:</strong>
+                        <ul>
+                            <li>Een uitgewerkte opdracht.</li>
+                            <li>Een foto van praktijkwerk.</li>
+                            <li>Een document dat je hebt gemaakt.</li>
+                            <li>Feedback van een docent of klasgenoot.</li>
+                            <li>Een korte reflectie over wat je hebt geleerd.</li>
+                        </ul>
+                    </div>
                 </div>
             </details>
 
             <details>
-                <summary>🛠️ Zo maak je jouw planning in Excel</summary>
+                <summary>🛠️ Zo maak je je portfolio in Canvas</summary>
                 <div class="details-content">
                     <ol class="steps">
-                        <li>Open het Excel-bestand met de opdrachten.</li>
-                        <li>Bekijk welke opdrachten je in de komende 6 weken moet uitvoeren.</li>
-                        <li>Maak in Excel een overzichtelijke tabel.</li>
-                        <li>Zet week 1 tot en met week 6 in je planning.</li>
-                        <li>Verdeel de opdrachten over de weken.</li>
-                        <li>Schrijf erbij wanneer je aan de opdracht gaat werken.</li>
-                        <li>Schat hoeveel tijd je denkt nodig te hebben.</li>
-                        <li>Controleer of je planning haalbaar is.</li>
+                        <li>Open Canvas en ga naar de juiste cursus.</li>
+                        <li>Ga naar de plek waar je jouw portfolio moet maken of inleveren.</li>
+                        <li>Maak een duidelijke titel voor je portfolio.</li>
+                        <li>Voeg je eerste opdracht, bestand, foto of link toe.</li>
+                        <li>Schrijf kort wat je hebt toegevoegd.</li>
+                        <li>Leg uit waarom dit bewijs belangrijk is.</li>
+                        <li>Controleer of alles goed leesbaar en zichtbaar is.</li>
+                        <li>Werk je portfolio regelmatig bij.</li>
                     </ol>
-                </div>
-            </details>
 
-            <details>
-                <summary>📋 Deze kolommen gebruik je</summary>
-                <div class="details-content">
                     <div class="mini-note">
-                        <strong>Let op:</strong> de kolommen die je in Excel gebruikt, worden tijdens de les uitgelegd.
-                        Zorg dat je goed meedoet, zodat je weet hoe je jouw planning moet invullen.
+                        <strong>Tip:</strong> wacht niet tot het laatste moment. Een goed portfolio bouw je stap voor stap op.
                     </div>
                 </div>
             </details>
 
             <details>
-                <summary>🎨 Maak je planning duidelijk met kleuren</summary>
+                <summary>🧩 Wat zet je in je portfolio?</summary>
                 <div class="details-content">
                     <p>
-                        Gebruik kleuren in Excel om snel te zien hoe je ervoor staat.
-                        Je mag zelf kleuren kiezen, maar dit is een handig voorbeeld:
+                        In je portfolio zet je werk dat laat zien wat jij kunt en wat je hebt geleerd.
+                        Kies dus niet zomaar alles, maar denk na over wat belangrijk is.
                     </p>
 
-                    <div class="color-tags">
-                        <span class="tag green">Groen = klaar</span>
-                        <span class="tag orange">Oranje = mee bezig</span>
-                        <span class="tag red">Rood = loopt achter</span>
-                        <span class="tag blue">Blauw = deadline</span>
-                    </div>
-
-                    <p style="margin-top: 18px;">
-                        Zorg ervoor dat iemand anders jouw planning ook kan begrijpen.
-                    </p>
-                </div>
-            </details>
-
-            <details>
-                <summary>💡 Tips voor een slimme planning</summary>
-                <div class="details-content">
                     <ul class="checklist">
-                        <li>Plan niet alles in de laatste week.</li>
-                        <li>Verdeel het werk over de 6 weken.</li>
-                        <li>Houd rekening met weken waarin je weinig of geen les hebt.</li>
-                        <li>Plan grote of moeilijke opdrachten op tijd in.</li>
-                        <li>Laat ruimte over voor opdrachten die langer duren dan verwacht.</li>
-                        <li>Gebruik kleuren om overzicht te houden.</li>
+                        <li>Opdrachten die je hebt gemaakt.</li>
+                        <li>Bestanden of documenten die bij je opdracht horen.</li>
+                        <li>Foto’s van praktijkwerk of eindresultaten.</li>
+                        <li>Feedback die je hebt gekregen.</li>
+                        <li>Verbeteringen die je hebt aangebracht.</li>
+                        <li>Een korte uitleg of reflectie bij je bewijs.</li>
                     </ul>
                 </div>
             </details>
 
             <details>
-                <summary>🔄 Je planning mag veranderen</summary>
+                <summary>✍️ Wat schrijf je erbij?</summary>
                 <div class="details-content">
                     <p>
-                        Tijdens de 6 weken mag je jouw planning aanpassen. Dat hoort bij leren plannen.
+                        Bij elk bewijsstuk schrijf je kort een uitleg. Zo begrijpt iemand anders waarom je dit hebt toegevoegd.
+                    </p>
+
+                    <div class="example-box">
+                        <strong>Gebruik bijvoorbeeld deze vragen:</strong>
+                        <ul>
+                            <li>Wat heb ik gemaakt of gedaan?</li>
+                            <li>Waarom heb ik dit toegevoegd aan mijn portfolio?</li>
+                            <li>Wat laat dit bewijs over mij zien?</li>
+                            <li>Wat ging goed?</li>
+                            <li>Wat kan ik de volgende keer beter doen?</li>
+                            <li>Wat heb ik hiervan geleerd?</li>
+                        </ul>
+                    </div>
+
+                    <div class="mini-note">
+                        Je hoeft geen lang verhaal te schrijven. Een korte, duidelijke uitleg is vaak genoeg.
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>🎨 Maak je portfolio overzichtelijk</summary>
+                <div class="details-content">
+                    <p>
+                        Een portfolio moet makkelijk te bekijken zijn. Zorg daarom voor een duidelijke indeling.
+                    </p>
+
+                    <ul class="checklist">
+                        <li>Gebruik duidelijke titels.</li>
+                        <li>Zet opdrachten in een logische volgorde.</li>
+                        <li>Geef bestanden een herkenbare naam.</li>
+                        <li>Controleer of links werken.</li>
+                        <li>Gebruik niet te veel verschillende kleuren of lettertypes.</li>
+                        <li>Zorg dat je tekst netjes en leesbaar is.</li>
+                    </ul>
+
+                    <div class="warning-note">
+                        <strong>Let op:</strong> iemand anders moet jouw portfolio kunnen begrijpen zonder dat jij erbij staat
+                        om alles uit te leggen.
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>🔄 Je portfolio mag groeien</summary>
+                <div class="details-content">
+                    <p>
+                        Je portfolio hoeft niet meteen af te zijn. Het is juist de bedoeling dat je portfolio groeit.
                     </p>
 
                     <p>
-                        Als een opdracht langer duurt dan je dacht, pas je je planning aan.
-                        Als je sneller klaar bent, kun je alvast verder met een volgende opdracht.
+                        Tijdens de periode voeg je steeds nieuw werk toe. Je mag ook dingen verbeteren,
+                        vervangen of aanvullen als je later beter werk hebt gemaakt.
                     </p>
 
                     <p>
-                        Een goede planning is niet een planning die nooit verandert.
-                        Een goede planning helpt jou om overzicht te houden en keuzes te maken.
+                        Zo laat je niet alleen zien wat je hebt gemaakt, maar ook hoe jij je ontwikkelt.
                     </p>
                 </div>
             </details>
@@ -536,21 +544,20 @@
                 <summary>📤 Wat lever je in?</summary>
                 <div class="details-content">
                     <p>
-                        Je levert een Excel-planning in voor de komende 6 weken.
+                        Je levert jouw portfolio in via Canvas, volgens de afspraak van de docent.
                     </p>
 
                     <p>
-                        In jouw planning staan minimaal:
+                        In jouw portfolio staan minimaal:
                     </p>
 
                     <ul class="checklist">
-                        <li>Alle opdrachten uit het Excel-bestand.</li>
-                        <li>Week 1 tot en met week 6.</li>
-                        <li>Wanneer je aan welke opdracht werkt.</li>
-                        <li>Of je dit tijdens de les of in eigen tijd doet.</li>
-                        <li>Hoeveel tijd je denkt nodig te hebben.</li>
-                        <li>De deadlines.</li>
-                        <li>Een kolom waarin je aangeeft of iets klaar is.</li>
+                        <li>Een duidelijke titel.</li>
+                        <li>De gevraagde opdrachten of bewijsstukken.</li>
+                        <li>Een korte uitleg bij elk bewijsstuk.</li>
+                        <li>Bestanden, foto’s of links die goed openen.</li>
+                        <li>Een nette en overzichtelijke indeling.</li>
+                        <li>Een korte reflectie op wat je hebt geleerd.</li>
                     </ul>
                 </div>
             </details>
@@ -559,15 +566,15 @@
                 <summary>🗣️ Reflectievragen</summary>
                 <div class="details-content">
                     <p>
-                        Beantwoord onder je planning deze vragen:
+                        Beantwoord deze vragen in of onder je portfolio:
                     </p>
 
                     <ol>
-                        <li>Hoeveel tijd heb jij volgens je rooster om aan de opdrachten te werken?</li>
-                        <li>Welke weken worden voor jou druk?</li>
-                        <li>Welke opdracht lijkt jou het meeste tijd te kosten?</li>
-                        <li>Wat doe je als een opdracht langer duurt dan je had gedacht?</li>
-                        <li>Wat heb je geleerd van het maken van deze planning?</li>
+                        <li>Welk bewijsstuk laat het beste zien wat jij kunt?</li>
+                        <li>Waar ben je trots op?</li>
+                        <li>Wat vond je lastig tijdens het maken van je portfolio?</li>
+                        <li>Welke feedback heb je gekregen?</li>
+                        <li>Wat wil je de volgende keer verbeteren?</li>
                     </ol>
                 </div>
             </details>
@@ -577,8 +584,9 @@
         <section class="final-box">
             <h2>Onthoud dit goed</h2>
             <p>
-                Je hoeft nog geen perfecte planning te maken. Het belangrijkste is dat je begint,
-                nadenkt over je tijd en leert om je planning bij te stellen. Dat is precies waarom je deze opdracht maakt.
+                Een portfolio is jouw verhaal. Het laat zien wat je hebt gedaan, wat je leert
+                en hoe je groeit. Het hoeft niet perfect te zijn, maar het moet wel duidelijk,
+                netjes en van jou zijn.
             </p>
         </section>
 
