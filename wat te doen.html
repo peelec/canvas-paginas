@@ -13,12 +13,11 @@
             --muted: #6b7280;
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
+            --purple: #7c3aed;
             --accent: #f97316;
             --green: #22c55e;
-            --yellow: #facc15;
-            --red: #ef4444;
-            --blue-light: #dbeafe;
             --border: #e5e7eb;
+            --blue-light: #dbeafe;
             --shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
             --radius: 18px;
         }
@@ -31,8 +30,8 @@
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             background:
-                radial-gradient(circle at top left, #dbeafe 0, transparent 35%),
-                radial-gradient(circle at bottom right, #ffedd5 0, transparent 35%),
+                radial-gradient(circle at top left, #dbeafe 0, transparent 34%),
+                radial-gradient(circle at bottom right, #ffedd5 0, transparent 34%),
                 var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -45,10 +44,10 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            background: linear-gradient(135deg, var(--primary), var(--purple));
             color: white;
             border-radius: 28px;
-            padding: 34px 28px;
+            padding: 36px 30px;
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
@@ -58,8 +57,8 @@
             content: "📅";
             position: absolute;
             right: 28px;
-            top: 20px;
-            font-size: 90px;
+            top: 18px;
+            font-size: 96px;
             opacity: 0.18;
             transform: rotate(8deg);
         }
@@ -69,7 +68,7 @@
             background: rgba(255, 255, 255, 0.18);
             border: 1px solid rgba(255, 255, 255, 0.28);
             color: white;
-            padding: 7px 13px;
+            padding: 7px 14px;
             border-radius: 999px;
             font-size: 14px;
             font-weight: 700;
@@ -250,34 +249,6 @@
             font-weight: 800;
         }
 
-        .table-wrap {
-            overflow-x: auto;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            margin-top: 14px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 820px;
-            background: white;
-        }
-
-        th {
-            background: #eff6ff;
-            color: #1e40af;
-            text-align: left;
-            padding: 12px;
-            font-size: 14px;
-        }
-
-        td {
-            border-top: 1px solid var(--border);
-            padding: 12px;
-            font-size: 14px;
-        }
-
         .color-tags {
             display: flex;
             flex-wrap: wrap;
@@ -333,6 +304,14 @@
             margin-right: 8px;
         }
 
+        .mini-note {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 16px;
+            color: #1e3a8a;
+        }
+
         .final-box {
             margin-top: 24px;
             background: linear-gradient(135deg, #111827, #374151);
@@ -381,10 +360,10 @@
     <main class="page">
 
         <section class="hero">
-            <span class="badge">Excel-opdracht · 8 weken plannen</span>
+            <span class="badge">Excel-opdracht · 6 weken plannen</span>
             <h1>Maak jouw planning in Excel</h1>
             <p>
-                Jij gaat overzicht maken voor de komende 8 weken. Je plant wanneer je aan welke opdracht werkt,
+                Jij gaat overzicht maken voor de komende 6 weken. Je plant wanneer je aan welke opdracht werkt,
                 hoeveel tijd je denkt nodig te hebben en wanneer iets klaar moet zijn.
             </p>
         </section>
@@ -392,7 +371,7 @@
         <section class="quick-grid" aria-label="Korte samenvatting">
             <div class="quick-card">
                 <span class="icon">⏱️</span>
-                <strong>8 weken</strong>
+                <strong>6 weken</strong>
                 <span>Je verdeelt je werk over de hele periode.</span>
             </div>
 
@@ -419,7 +398,7 @@
             <h2>Waar gaat deze opdracht over?</h2>
 
             <p>
-                Je krijgt <strong>8 weken de tijd</strong> om verschillende opdrachten uit te voeren.
+                Je krijgt <strong>6 weken de tijd</strong> om verschillende opdrachten uit te voeren.
                 De opdrachten vind je in het <strong>Excel-bestand op de volgende pagina</strong>.
             </p>
 
@@ -441,7 +420,7 @@
                 <summary>🚀 Wat ga je doen?</summary>
                 <div class="details-content">
                     <p>
-                        Je maakt in Excel een planning voor de komende 8 weken. In die planning zet je alle opdrachten
+                        Je maakt in Excel een planning voor de komende 6 weken. In die planning zet je de opdrachten
                         die je moet maken. Daarna verdeel je deze opdrachten over de weken en momenten waarop jij kunt werken.
                     </p>
 
@@ -478,9 +457,9 @@
                 <div class="details-content">
                     <ol class="steps">
                         <li>Open het Excel-bestand met de opdrachten.</li>
-                        <li>Bekijk welke opdrachten je in de komende 8 weken moet uitvoeren.</li>
+                        <li>Bekijk welke opdrachten je in de komende 6 weken moet uitvoeren.</li>
                         <li>Maak in Excel een overzichtelijke tabel.</li>
-                        <li>Zet week 1 tot en met week 8 in je planning.</li>
+                        <li>Zet week 1 tot en met week 6 in je planning.</li>
                         <li>Verdeel de opdrachten over de weken.</li>
                         <li>Schrijf erbij wanneer je aan de opdracht gaat werken.</li>
                         <li>Schat hoeveel tijd je denkt nodig te hebben.</li>
@@ -492,47 +471,9 @@
             <details>
                 <summary>📋 Deze kolommen gebruik je</summary>
                 <div class="details-content">
-                    <p>
-                        Maak in Excel een tabel. Gebruik minimaal deze kolommen:
-                    </p>
-
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Week</th>
-                                    <th>Datum</th>
-                                    <th>Les of eigen tijd</th>
-                                    <th>Opdracht</th>
-                                    <th>Wat ga ik doen?</th>
-                                    <th>Geschatte tijd</th>
-                                    <th>Deadline</th>
-                                    <th>Klaar?</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Week 1</td>
-                                    <td>Vul datum in</td>
-                                    <td>Les / eigen tijd</td>
-                                    <td>Naam opdracht</td>
-                                    <td>Wat ga je precies doen?</td>
-                                    <td>Bijv. 45 min.</td>
-                                    <td>Vul deadline in</td>
-                                    <td>Ja / Nee</td>
-                                </tr>
-                                <tr>
-                                    <td>Week 2</td>
-                                    <td>Vul datum in</td>
-                                    <td>Les / eigen tijd</td>
-                                    <td>Naam opdracht</td>
-                                    <td>Wat ga je precies doen?</td>
-                                    <td>Bijv. 1 uur</td>
-                                    <td>Vul deadline in</td>
-                                    <td>Ja / Nee</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="mini-note">
+                        <strong>Let op:</strong> de kolommen die je in Excel gebruikt, worden tijdens de les uitgelegd.
+                        Zorg dat je goed meedoet, zodat je weet hoe je jouw planning moet invullen.
                     </div>
                 </div>
             </details>
@@ -563,7 +504,7 @@
                 <div class="details-content">
                     <ul class="checklist">
                         <li>Plan niet alles in de laatste week.</li>
-                        <li>Verdeel het werk over de 8 weken.</li>
+                        <li>Verdeel het werk over de 6 weken.</li>
                         <li>Houd rekening met weken waarin je weinig of geen les hebt.</li>
                         <li>Plan grote of moeilijke opdrachten op tijd in.</li>
                         <li>Laat ruimte over voor opdrachten die langer duren dan verwacht.</li>
@@ -576,7 +517,7 @@
                 <summary>🔄 Je planning mag veranderen</summary>
                 <div class="details-content">
                     <p>
-                        Tijdens de 8 weken mag je jouw planning aanpassen. Dat hoort bij leren plannen.
+                        Tijdens de 6 weken mag je jouw planning aanpassen. Dat hoort bij leren plannen.
                     </p>
 
                     <p>
@@ -595,7 +536,7 @@
                 <summary>📤 Wat lever je in?</summary>
                 <div class="details-content">
                     <p>
-                        Je levert een Excel-planning in voor de komende 8 weken.
+                        Je levert een Excel-planning in voor de komende 6 weken.
                     </p>
 
                     <p>
@@ -604,7 +545,7 @@
 
                     <ul class="checklist">
                         <li>Alle opdrachten uit het Excel-bestand.</li>
-                        <li>Week 1 tot en met week 8.</li>
+                        <li>Week 1 tot en met week 6.</li>
                         <li>Wanneer je aan welke opdracht werkt.</li>
                         <li>Of je dit tijdens de les of in eigen tijd doet.</li>
                         <li>Hoeveel tijd je denkt nodig te hebben.</li>
