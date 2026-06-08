@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sigrid Styling ICT-route</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6fb;
+      color: #1f2937;
+    }
+
+    .dashboard {
+      max-width: 1220px;
+      margin: 24px auto;
+      padding: 22px;
+    }
+
+    .kop {
+      background: linear-gradient(135deg, #6d28d9, #db2777);
+      color: white;
+      border-radius: 24px;
+      padding: 30px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 30px rgba(31, 41, 55, 0.18);
+    }
+
+    .kop h1 {
+      margin: 0 0 10px 0;
+      font-size: clamp(30px, 4vw, 48px);
+    }
+
+    .kop p {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.5;
+      max-width: 960px;
+    }
+
+    .stappen {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .stap {
+      background: white;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(31, 41, 55, 0.08);
+      border-top: 5px solid #6366f1;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .route {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 20px;
+    }
+
+    .zijbalk {
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(31, 41, 55, 0.10);
+      height: fit-content;
+      position: sticky;
+      top: 16px;
+    }
+
+    .zijbalk h2 {
+      margin: 0 0 14px 0;
+      font-size: 20px;
+      color: #111827;
+    }
+
+    .categorieknop {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 15px;
+      margin-bottom: 12px;
+      text-align: left;
+      font-size: 16px;
+      font-weight: bold;
+      color: #1f2937;
+      cursor: pointer;
+      background: #eef2ff;
+      border-left: 8px solid #6366f1;
+    }
+
+    .categorieknop:hover {
+      filter: brightness(0.98);
+    }
+
+    .categorieknop.actief {
+      background: #312e81;
+      color: white;
+      border-left-color: #facc15;
+    }
+
+    .teller {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.25);
+      font-size: 13px;
+    }
+
+    .tipblok {
+      margin-top: 18px;
+      background: #fff7ed;
+      border-left: 6px solid #f97316;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .inhoud {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .kaartgebied,
+    .detailkaart {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(31, 41, 55, 0.10);
+    }
+
+    .kaartgebied h2,
+    .detailkaart h2 {
+      margin: 0 0 8px 0;
+      color: #111827;
+    }
+
+    .subtekst {
+      margin: 0 0 18px 0;
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .kaarten {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 14px;
+      max-height: 660px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .opdrachtkaart {
+      border: 0;
+      border-radius: 18px;
+      padding: 16px;
+      min-height: 140px;
+      text-align: left;
+      cursor: pointer;
+      background: #f8fafc;
+      border: 2px solid #e5e7eb;
+      transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+    }
+
+    .opdrachtkaart:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 22px rgba(31, 41, 55, 0.13);
+      border-color: #6366f1;
+    }
+
+    .opdrachtkaart.actief {
+      border-color: #db2777;
+      background: #fdf2f8;
+    }
+
+    .code {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #111827;
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .opdrachtkaart h3 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      color: #111827;
+    }
+
+    .opdrachtkaart p {
+      margin: 0;
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .detailkaart {
+      position: sticky;
+      top: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .detailkaart h3 {
+      margin: 0 0 12px 0;
+      font-size: 26px;
+      color: #111827;
+    }
+
+    .detailblok {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 12px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .detailblok strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+
+    .detailblok p {
+      margin: 0;
+      line-height: 1.5;
+      color: #374151;
+    }
+
+    .statusrij {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .status {
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 13px;
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .status:nth-child(2) {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status:nth-child(3) {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .voet {
+      margin-top: 22px;
+      background: #111827;
+      color: white;
+      border-radius: 20px;
+      padding: 20px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 940px) {
+      .route,
+      .inhoud,
+      .stappen {
+        grid-template-columns: 1fr;
+      }
+
+      .zijbalk,
+      .detailkaart {
+        position: static;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard">
+    <header class="kop">
+      <h1>Sigrid Styling ICT-route</h1>
+      <p>
+        Bekijk de LinkedIn Learning-video's en plan de dagtaken zelf in. Jij bepaalt de volgorde,
+        maar je moet kunnen uitleggen waarom je voor die volgorde kiest en welk bewijs je verzamelt.
+      </p>
+    </header>
+
+    <section class="stappen">
+      <div class="stap">1. Kies video of dagtaak</div>
+      <div class="stap">2. Plan je volgorde</div>
+      <div class="stap">3. Voer uit</div>
+      <div class="stap">4. Verzamel bewijs</div>
+    </section>
+
+    <main class="route">
+      <aside class="zijbalk">
+        <h2>Kies je route</h2>
+        <button class="categorieknop actief" onclick="toonCategorie('videos', this)">
+          LinkedIn-video's <span class="teller">25</span>
+        </button>
+        <button class="categorieknop" onclick="toonCategorie('dagtaken', this)">
+          Dagtaken plannen <span class="teller">21</span>
+        </button>
+
+        <div class="tipblok">
+          <strong>Tip voor leerlingen:</strong><br>
+          Begin niet zomaar bovenaan. Kijk welke video of dagtaak jou helpt om je volgende stap
+          bij Sigrid Styling beter uit te voeren.
+        </div>
+      </aside>
+
+      <section class="inhoud">
+        <section class="kaartgebied">
+          <h2 id="categorietitel">LinkedIn-video's</h2>
+          <p id="categorieomschrijving" class="subtekst">
+            Bekijk de video-onderwerpen en maak aantekeningen die je kunt toepassen bij Sigrid Styling.
+          </p>
+          <div id="kaarten" class="kaarten"></div>
+        </section>
+
+        <aside class="detailkaart">
+          <span id="detailcategorie" class="badge">LinkedIn-video</span>
+          <h3 id="detailtitel">Kies een kaart</h3>
+
+          <div class="detailblok">
+            <strong>Wat ga je doen?</strong>
+            <p id="detaildoen">Klik op een kaart om de uitleg te bekijken.</p>
+          </div>
+
+          <div class="detailblok">
+            <strong>Wat lever je op?</strong>
+            <p id="detailbewijs">Je ziet hier welk bewijs je moet verzamelen.</p>
+          </div>
+
+          <div class="detailblok">
+            <strong>Tip</strong>
+            <p id="detailtip">Plan slim: kies eerst wat je nodig hebt voor je praktische opdracht.</p>
+          </div>
+
+          <div class="statusrij">
+            <div class="status">Nog kiezen</div>
+            <div class="status">Bezig</div>
+            <div class="status">Klaar</div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="voet">
+      <strong>Doel:</strong> aan het einde kun je laten zien welke kennis je uit de video's hebt gehaald,
+      welke dagtaken je hebt gepland en uitgevoerd, en welk bewijs hoort bij jouw werk voor Sigrid Styling.
+    </footer>
+  </div>
+
+  <script>
+    const data = {
+      videos: {
+        titel: "LinkedIn-video's",
+        omschrijving: "Bekijk de video-onderwerpen en maak aantekeningen die je kunt toepassen bij Sigrid Styling.",
+        items: [
+          {
+            code: "V01",
+            titel: "Inleiding tot computers en besturingssystemen",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Inleiding tot computers en besturingssystemen' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V02",
+            titel: "CPU's",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'CPU's' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V03",
+            titel: "Werkgeheugen",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Werkgeheugen' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V04",
+            titel: "BIOS en UEFI",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'BIOS en UEFI' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V05",
+            titel: "Moederborden",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Moederborden' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V06",
+            titel: "Voedingen",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Voedingen' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V07",
+            titel: "Technologiën voor massaopslag",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Technologiën voor massaopslag' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V08",
+            titel: "Massaopslag implementeren",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Massaopslag implementeren' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V09",
+            titel: "Essentiële randapparatuur",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Essentiële randapparatuur' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V10",
+            titel: "Besturingssystemen installeren en upgraden",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Besturingssystemen installeren en upgraden' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V11",
+            titel: "Werken met besturingssystemen",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Werken met besturingssystemen' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V12",
+            titel: "Problemen met systemen oplossen",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Problemen met systemen oplossen' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V13",
+            titel: "Weergave Technologiën",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Weergave Technologiën' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V14",
+            titel: "Essentie van Netwerken",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Essentie van Netwerken' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V15",
+            titel: "Basisprincipes van TCP-IP",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Basisprincipes van TCP-IP' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V16",
+            titel: "Netwerk besturingssysteem/netwerkpropleemoplossing",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Netwerk besturingssysteem/netwerkpropleemoplossing' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V17",
+            titel: "Draadloze netwerken",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Draadloze netwerken' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V18",
+            titel: "Internet en SOHO-netwerken",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Internet en SOHO-netwerken' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V19",
+            titel: "Virtualisatie, cloudcomputing en AI",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Virtualisatie, cloudcomputing en AI' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V20",
+            titel: "Draagbaar computergebruik",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Draagbaar computergebruik' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V21",
+            titel: "Mobiele apparaten",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Mobiele apparaten' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V22",
+            titel: "Onderhoud en beveiliging van mobiele apperaten",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Onderhoud en beveiliging van mobiele apperaten' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V23",
+            titel: "Printers en multifunctionele apparaten",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Printers en multifunctionele apparaten' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V24",
+            titel: "Essentiéle beveiligingspraktijken",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Essentiéle beveiligingspraktijken' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          },
+          {
+            code: "V25",
+            titel: "Operationele procedures",
+            type: "LinkedIn-video",
+            kort: "Bekijk deze video en maak korte aantekeningen.",
+            doen: "Bekijk de video 'Operationele procedures' op LinkedIn Learning. Let op de belangrijkste begrippen, stappen en voorbeelden die je later kunt toepassen bij Sigrid Styling.",
+            bewijs: "Noteer minimaal 3 belangrijke punten uit de video. Schrijf ook op waar je dit bij Sigrid Styling kunt toepassen.",
+            tip: "Kijk actief: pauzeer de video en noteer woorden of stappen die je nog niet kent."
+          }
+        ]
+      },
+      dagtaken: {
+        titel: "Dagtaken plannen",
+        omschrijving: "Plan deze taken zelf in tijdens je route. Je bepaalt je eigen volgorde.",
+        items: [
+          {
+            code: "P1.01",
+            titel: "Monteer een stekker aan een snoer.",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.02",
+            titel: "Monteer een tafeldoos aan een snoer",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.03",
+            titel: "Overzicht van GamePC",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.04",
+            titel: "Overzicht Kantoor pc",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.05",
+            titel: "Overzicht video editing pc",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.06",
+            titel: "ESD veilige werkplek",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.07",
+            titel: "Assembleren van een computer",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.08",
+            titel: "Maak een Fotoverslag",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.09",
+            titel: "Installeren OS Fujitsu Siemens",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.10",
+            titel: "Installeren software Fujitsu Siemens",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.11",
+            titel: "Configureren Fujitsu Siemens",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.12",
+            titel: "Template servicebon",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.13",
+            titel: "Installeren OS Dell 3590 (Linux)",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.14",
+            titel: "Installeren software Dell 3590",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.15",
+            titel: "Configureren Dell 3590",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.16",
+            titel: "Installatie Dell Desktop Win 10 - Linux Mint",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.17",
+            titel: "Installeren software Dell Desktop",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.18",
+            titel: "Configureren Dell Desktop",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.19",
+            titel: "Installeren OS Dell 3590 (Win 11)",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.20",
+            titel: "Installeren software Dell 3590 Win 11",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          },
+          {
+            code: "P1.21",
+            titel: "Configureren Dell 3590 (Win 11)",
+            type: "Dagtaak",
+            kort: "Plan deze taak zelf in je werkplanning.",
+            doen: "Bepaal wanneer je deze dagtaak uitvoert. Zet de taak in je planning en voer hem daarna uit volgens de instructie in Canvas of van de docent.",
+            bewijs: "Laat zien dat je deze taak hebt gepland en uitgevoerd. Gebruik bijvoorbeeld een foto, screenshot, checklist, servicebon, verslag of korte toelichting.",
+            tip: "Werk in deze volgorde: plannen, uitvoeren, controleren, bewijs opslaan."
+          }
+        ]
+      }
+    };
+
+    function toonCategorie(categorie, knop) {
+      document.querySelectorAll(".categorieknop").forEach(function(btn) {
+        btn.classList.remove("actief");
+      });
+      knop.classList.add("actief");
+
+      document.getElementById("categorietitel").textContent = data[categorie].titel;
+      document.getElementById("categorieomschrijving").textContent = data[categorie].omschrijving;
+
+      const kaarten = document.getElementById("kaarten");
+      kaarten.innerHTML = "";
+
+      data[categorie].items.forEach(function(item, index) {
+        const kaart = document.createElement("button");
+        kaart.className = "opdrachtkaart";
+        kaart.onclick = function() { toonDetail(categorie, index, kaart); };
+        kaart.innerHTML =
+          "<span class='code'>" + item.code + "</span>" +
+          "<h3>" + item.titel + "</h3>" +
+          "<p>" + item.kort + "</p>";
+        kaarten.appendChild(kaart);
+      });
+
+      toonDetail(categorie, 0, null);
+    }
+
+    function toonDetail(categorie, index, gekozenKaart) {
+      const item = data[categorie].items[index];
+
+      document.querySelectorAll(".opdrachtkaart").forEach(function(kaart) {
+        kaart.classList.remove("actief");
+      });
+
+      if (gekozenKaart) {
+        gekozenKaart.classList.add("actief");
+      } else {
+        const eersteKaart = document.querySelector(".opdrachtkaart");
+        if (eersteKaart) eersteKaart.classList.add("actief");
+      }
+
+      document.getElementById("detailcategorie").textContent = item.type;
+      document.getElementById("detailtitel").textContent = item.code + " — " + item.titel;
+      document.getElementById("detaildoen").textContent = item.doen;
+      document.getElementById("detailbewijs").textContent = item.bewijs;
+      document.getElementById("detailtip").textContent = item.tip;
+    }
+
+    toonCategorie("videos", document.querySelector(".categorieknop"));
+  </script>
+</body>
+</html>
